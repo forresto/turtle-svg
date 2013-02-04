@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Turtle Graphics to SVG</title>
+<style type="text/css" media="screen">
+  #editor { 
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 40px;
+    width: 500px;
+  }
+
+  #commands {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 480px;
+    height: 40px;
+
+    text-align: right;
+    font-size: 20px;
+  }
+    button {
+      font-size: 20px;
+    }
+
+  #svgContainer {
+    position: absolute;
+    top: 0;
+    left: 500px;
+    bottom: 0;
+    right: 0;
+    overflow: auto; 
+  }
+
+</style>
+</head>
+<body>
+
+<div id="editor">/*
+
+Welcome to the JS turtle graphics -> SVG generator. 
+This will generate an SVG file with one &lt;path&gt; element.
+The turtle starts in the top-left corner facing down.
+
+// Relative commands
+turnRight(angle); turnLeft(angle); moveForward(distance);
+// Shortcuts
+r(); l(); f();
+
+// Absolute commands
+turnTo(angle); moveTo(x, y);
+// Shortcuts
+t(); m();
+
+// Pen commands
+penUp(); penDown();
+
+// Angles for turn commands are 0.0 to 1.0:
+turnRight(1/4); // Turn right 90º
+turnLeft(1/360); // Turn left 1º
+
+// Functions and commands are JS:
+var drawRegular = function(sideCount, sideLength) {
+  for (var i=0; i&lt;sideCount; i++){
+    moveForward(sideLength);
+    turnRight(1/sideCount);
+  }
+}
+
+*/
+
+moveTo(20, 20);
+moveForward(100);
+turnLeft(1/4);
+moveForward(100);
+turnLeft(1/4);
+moveForward(100);
+</div>
+
+<div id="commands">
+  <button id="apply" disabled="true">Apply</button>
+  <input id="auto" type="checkbox" checked="true">auto</input>
+  <!-- <button disabled="true">Export</button> -->
+</div>
+
+<div id="svgContainer">
+  <svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
+    <path id="turtle" d="" stroke="black" fill="none" vector-effect="non-scaling-stroke" />
+  </svg>
+</div>
+
+<script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+window.onload = function(){
+
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/javascript");
+  var session = editor.getSession();
+
+  var applyButton = document.getElementById("apply");
+  var autoCheck = document.getElementById("auto");
+  var svg = document.getElementById("svgOutput");
+  var path = svg.getElementById("turtle");
+
+  var changeTimeout;
+  var testCodeStart;
+  var testCodeWorking = true;
+  var testingCode;
+
+  var worker;
+  var workerBusy = false;
+
+  var setupWorker = function(){
+    worker = new Worker('turtle-svg-worker.js');
+    worker.onmessage = function(e) {
+      console.log("worker done", e, e.data);
+      if (e.data === ""){
+        applyButton.innerHTML = "JS error";
+      } else {
+        applyButton.innerHTML = "Apply";
+        setPath(e.data);
+      }
+      workerBusy = false;
+    };
+    worker.onerror = function(e) {
+      console.log("worker error", e);
+    };
+  }
+  setupWorker();
+
+  var testCode = function(){
+    if (worker && !workerBusy) {
+      workerBusy = true;
+      applyButton.innerHTML = "Working...";
+      testCodeStart = Date.now();
+      testingCode = editor.getValue();
+      worker.postMessage(testingCode);      
+      console.log("sent", worker);
+    } else {
+      console.log("busy", worker);
+    }
+  };
+  testCode();
+
+  session.on("change", function (e) {
+    if(changeTimeout) {
+      clearTimeout(changeTimeout);
+    }
+    changeTimeout = setTimeout(testCode, 500);
+  });
+
+  var setPath = function(d){
+    path.setAttributeNS(null, "d", d);
+  };
+
+
+}
+</script>
+</body>
+</html>
