@@ -168,10 +168,13 @@ window.onload = function(){
   var setupWorker = function(){
     worker = new Worker('turtle-svg-worker.js');
     worker.onmessage = function(e) {
+      console.log("ok");
       if (e.data === ""){
-        applyButton.innerHTML = "JS error";
+        applyButton.innerHTML = "JS error... restart?";
+        applyButton.disabled = false;
       } else {
         applyButton.innerHTML = "Apply";
+        applyButton.disabled = true;
         setPath(e.data);
       }
       workerBusy = false;
@@ -179,13 +182,15 @@ window.onload = function(){
     worker.onerror = function(e) {
       console.log("worker error", e);
     };
+    workerBusy = false;
   }
   setupWorker();
 
   var testCode = function(){
     if (worker && !workerBusy) {
       workerBusy = true;
-      applyButton.innerHTML = "Working...";
+      applyButton.innerHTML = "Working... cancel?";
+      applyButton.disabled = false;
       testCodeStart = Date.now();
       testingCode = editor.getValue();
       worker.postMessage(testingCode);      
@@ -194,6 +199,16 @@ window.onload = function(){
     }
   };
   testCode();
+
+  applyButton.onclick = function(){
+    // Restart
+    if (worker && workerBusy) {
+      worker.terminate();
+      setupWorker();
+      applyButton.innerHTML = "Apply";
+      applyButton.disabled = true;
+    }
+  };
 
   session.on("change", function (e) {
     if(changeTimeout) {
