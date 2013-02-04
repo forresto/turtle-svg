@@ -46,7 +46,7 @@ penDown = d = function(){
 };
 
 // Relative moves
-var moveForward, m;
+var moveForward, f;
 moveForward = f = function (distance) {
   d += pen ? "l " : "m ";
   d += (distance * vector.x) + " " + (distance * vector.y) + " ";

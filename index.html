@@ -142,6 +142,25 @@ function unit(iteration) {
 turnTo(3/8);
 unit(5);
 
+// Draw golden ratio squares
+var PHI = (1 + Math.sqrt(5)) / 2;
+var scale = 300;
+var i = 0;
+while(scale>0.1){
+    f(scale);
+    l(1/4);
+    f(scale);
+    l(1/4);
+    f(scale);
+    l(1/4);
+    f(scale);
+    l(1/4);
+    f(scale);
+    scale = scale/PHI;
+    f(scale);
+    l(1/4);
+}
+
 </pre></div>
 
 <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
