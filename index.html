@@ -35,29 +35,68 @@
     overflow: auto; 
   }
 
+  #help {
+    display: none;
+
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 510px;
+
+    background-color: rgba(238, 246, 108, 0.95);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 99;
+
+    overflow: auto;
+  }
+
 </style>
 </head>
 <body>
 
-<div id="editor">/*
+<div id="editor">penUp();
+moveTo(20, 20);
+penDown();
+moveForward(100);
+turnLeft(1/4);
+moveForward(100);
+turnLeft(1/4);
+moveForward(100);
+</div>
 
-Welcome to the JS turtle graphics -> SVG generator. 
+<div id="commands">
+  <button id="export">Export</button>
+  <button id="apply" disabled="true">Apply</button>
+  <input id="auto" type="checkbox" checked="true" disabled="true">auto</input>
+  <!-- <button disabled="true">Export</button> -->
+  <button id="show-help">?</button>
+</div>
+
+<div id="svgContainer">
+  <svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
+    <path id="turtle" d="M 0 0 " stroke="black" fill="none" vector-effect="non-scaling-stroke" />
+  </svg>
+</div>
+
+<div id="help">
+<pre>Welcome to the JS turtle graphics -> SVG generator. 
 This will generate an SVG file with one &lt;path&gt; element.
 The turtle starts in the top-left corner facing down.
 
-// Relative commands
-turnRight(angle); turnLeft(angle); moveForward(distance);
-// Shortcuts
-r(); l(); f();
+// Relative commands, shortcuts r(); l(); f();
+turnRight(angle); 
+turnLeft(angle); 
+moveForward(distance);
 
-// Absolute commands
-turnTo(angle); moveTo(x, y);
-// Shortcuts
-t(); m();
+// Absolute commands, shortcuts t(); m();
+turnTo(angle); 
+moveTo(x, y);
 
-// Pen commands
-penUp(); penDown();
-u(); d();
+// Pen commands, shortcuts u(); d();
+penUp(); 
+penDown();
 
 // Angles for turn commands are 0.0 to 1.0:
 turnRight(1/4); // Turn right 90º
@@ -72,29 +111,34 @@ var drawRegular = function(sideCount, sideLength) {
 };
 drawRegular(5, 20);
 
-*/
-
-penUp();
-moveTo(20, 20);
-penDown();
+// Draw a square:
 moveForward(100);
 turnLeft(1/4);
 moveForward(100);
 turnLeft(1/4);
 moveForward(100);
-</div>
+turnLeft(1/4);
+moveForward(100);
 
-<div id="commands">
-  <button id="apply" disabled="true">Apply</button>
-  <input id="auto" type="checkbox" checked="true">auto</input>
-  <!-- <button disabled="true">Export</button> -->
-</div>
+// Draw a recursive space-filling curve:
+var segmentLength = 10;
+function unit(iteration) {
+  if (iteration > 0) {
+    unit(iteration - 1);
+    turnRight(0.25);
+    unit(iteration - 1);
+    moveForward(segmentLength);
+    unit(iteration - 1);
+    turnRight(0.25);
+    unit(iteration - 1);
+  }
+}
+moveTo(10, 10);
+turnTo(3/8);
+unit(6);
 
-<div id="svgContainer">
-  <svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
-    <path id="turtle" d="M 0 0 " stroke="black" fill="none" vector-effect="non-scaling-stroke" />
-  </svg>
-</div>
+
+</pre></div>
 
 <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -107,6 +151,9 @@ window.onload = function(){
 
   var applyButton = document.getElementById("apply");
   var autoCheck = document.getElementById("auto");
+  var helpButton = document.getElementById("show-help");
+  var exportButton = document.getElementById("export");
+  var help = document.getElementById("help");
   var svg = document.getElementById("svgOutput");
   var path = svg.getElementById("turtle");
 
@@ -143,6 +190,7 @@ window.onload = function(){
       testingCode = editor.getValue();
       worker.postMessage(testingCode);      
     } else {
+      // ?
     }
   };
   testCode();
@@ -158,12 +206,23 @@ window.onload = function(){
     path.setAttributeNS(null, "d", d);
 
     var bBox = path.getBBox();
-    var w = Math.max(500, bBox.x+bBox.width+20);
-    var h = Math.max(500, bBox.y+bBox.height+20);
+    var w = Math.max(500, Math.ceil(bBox.x+bBox.width+20));
+    var h = Math.max(500, Math.ceil(bBox.y+bBox.height+20));
     svg.setAttribute("width", w);
     svg.setAttribute("height", h);
-    console.log(bBox);
   };
+
+
+  var helpShown = false;
+  helpButton.onclick = function(){
+    helpShown = !helpShown;
+    help.style.display = helpShown ? "block" : "none";
+  };
+
+  exportButton.onclick = function(){
+    var svgText = document.getElementById("svgContainer").innerHTML;
+    window.open("data:image/svg+xml,"+svgText);
+  }
 
 
 }
