@@ -56,9 +56,8 @@
 </head>
 <body>
 
-<div id="editor">penUp();
-moveTo(20, 20);
-penDown();
+<div id="editor">// Press [?] for help
+
 moveForward(100);
 turnLeft(1/4);
 moveForward(100);
@@ -81,26 +80,33 @@ moveForward(100);
 </div>
 
 <div id="help">
-<pre>Welcome to the JS turtle graphics -> SVG generator. 
+<pre>Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>
+   __   ___   ___________    ________  _____  ________   ____
+  / /  / _ | / __/ __/ _ \  /_  __/ / / / _ \/_  __/ /  / __/
+ / /__/ __ |_\ \/ _// , _/   / / / /_/ / , _/ / / / /__/ _/  
+/____/_/ |_/___/___/_/|_|   /_/  \____/_/|_| /_/ /____/___/  
+
+Welcome to the JS turtle graphics -> SVG generator. 
 This will generate an SVG file with one &lt;path&gt; element.
-The turtle starts in the top-left corner facing down.
+The turtle starts in the middle facing down.
+Angles: 0 is down, 1/4 is right, 1/2 is up, 3/4 is left
 
-// Relative commands, shortcuts r(); l(); f();
-turnRight(angle); 
-turnLeft(angle); 
-moveForward(distance);
+// Relative commands
+turnRight(angle);      // Shortcut r()
+turnLeft(angle);       // l()
+moveForward(distance); // f()
 
-// Absolute commands, shortcuts t(); m();
-turnTo(angle); 
-moveTo(x, y);
+// Absolute commands
+turnTo(angle);         // t()
+moveTo(x, y);          // m()
 
-// Pen commands, shortcuts u(); d();
-penUp(); 
-penDown();
+// Pen (laser, blade) commands
+penUp();               // u()
+penDown();             // d()
 
-// Angles for turn commands are 0.0 to 1.0:
-turnRight(1/4); // Turn right 90º
-turnLeft(1/360); // Turn left 1º
+// Angles for turn commands are 0.0 to 1.0
+turnRight(1/4);        // Turn right 90º
+turnLeft(1/360);       // Turn left 1º
 
 // Functions and commands are JS:
 var drawRegular = function(sideCount, sideLength) {
@@ -133,10 +139,8 @@ function unit(iteration) {
     unit(iteration - 1);
   }
 }
-moveTo(10, 10);
 turnTo(3/8);
-unit(6);
-
+unit(5);
 
 </pre></div>
 

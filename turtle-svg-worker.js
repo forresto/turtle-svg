@@ -4,7 +4,7 @@ var TAU = 2 * Math.PI;
 // Reset turtle
 var moveCount = 0;
 var pen = true;
-var d = "M 0 0 ";
+var d = "M 250 250 ";
 var vector = {
   x: 0,
   y: 1
@@ -67,7 +67,7 @@ self.onmessage = function(e) {
   // Reset
   moveCount = 0;
   pen = true;
-  d = "M 0 0 ";
+  d = "M 250 250 ";
   vector.x = 0;
   vector.y = 1;
   currentAngle = 0; 
