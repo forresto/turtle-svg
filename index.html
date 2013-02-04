@@ -168,7 +168,6 @@ window.onload = function(){
   var setupWorker = function(){
     worker = new Worker('turtle-svg-worker.js');
     worker.onmessage = function(e) {
-      console.log("ok");
       if (e.data === ""){
         applyButton.innerHTML = "JS error... restart?";
         applyButton.disabled = false;
