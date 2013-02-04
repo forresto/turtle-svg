@@ -57,6 +57,7 @@ t(); m();
 
 // Pen commands
 penUp(); penDown();
+u(); d();
 
 // Angles for turn commands are 0.0 to 1.0:
 turnRight(1/4); // Turn right 90º
@@ -68,11 +69,14 @@ var drawRegular = function(sideCount, sideLength) {
     moveForward(sideLength);
     turnRight(1/sideCount);
   }
-}
+};
+drawRegular(5, 20);
 
 */
 
+penUp();
 moveTo(20, 20);
+penDown();
 moveForward(100);
 turnLeft(1/4);
 moveForward(100);
@@ -88,7 +92,7 @@ moveForward(100);
 
 <div id="svgContainer">
   <svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
-    <path id="turtle" d="" stroke="black" fill="none" vector-effect="non-scaling-stroke" />
+    <path id="turtle" d="M 0 0 " stroke="black" fill="none" vector-effect="non-scaling-stroke" />
   </svg>
 </div>
 
@@ -117,7 +121,6 @@ window.onload = function(){
   var setupWorker = function(){
     worker = new Worker('turtle-svg-worker.js');
     worker.onmessage = function(e) {
-      console.log("worker done", e, e.data);
       if (e.data === ""){
         applyButton.innerHTML = "JS error";
       } else {
@@ -139,9 +142,7 @@ window.onload = function(){
       testCodeStart = Date.now();
       testingCode = editor.getValue();
       worker.postMessage(testingCode);      
-      console.log("sent", worker);
     } else {
-      console.log("busy", worker);
     }
   };
   testCode();
@@ -155,6 +156,13 @@ window.onload = function(){
 
   var setPath = function(d){
     path.setAttributeNS(null, "d", d);
+
+    var bBox = path.getBBox();
+    var w = Math.max(500, bBox.x+bBox.width+20);
+    var h = Math.max(500, bBox.y+bBox.height+20);
+    svg.setAttribute("width", w);
+    svg.setAttribute("height", h);
+    console.log(bBox);
   };
 
 
