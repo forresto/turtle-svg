@@ -218,6 +218,7 @@ while( side &lt; 1200 ){
 <script>
 window.onload = function(){
 
+  ace.config.set("workerPath", ".");
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   var session = editor.getSession();
