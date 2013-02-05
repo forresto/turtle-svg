@@ -9,14 +9,14 @@
       top: 0;
       left: 0;
       bottom: 40px;
-      width: 350px;
+      width: 400px;
     }
 
     #commands {
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 330px;
+      width: 380px;
       height: 40px;
 
       text-align: right;
@@ -29,7 +29,7 @@
     #right-column {
       position: absolute;
       top: 0;
-      left: 350px;
+      left: 400px;
       bottom: 0;
       right: 0;
       overflow: auto; 
@@ -330,8 +330,11 @@ window.onload = function(){
 
   window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL || null;
   exportButton.onclick = function(){
+    var packed = encode( editor.getValue() );
+    var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
+    var comment = "<!-- Made with LASER TURTLE; here is the source: " + perma + " -->\n";
     var svgString = document.getElementById("svgContainer").innerHTML;
-    var svgBlob = new Blob([svgString], { "type" : "image/svg+xml" });
+    var svgBlob = new Blob([comment,svgString], { "type" : "image/svg+xml" });
     var svgBlobURL = URL.createObjectURL(svgBlob);
     if (svgBlobURL) {
       window.open(svgBlobURL);
