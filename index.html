@@ -74,7 +74,7 @@ moveForward(100);
 </div>
 
 <div id="commands">
-  <button id="link">Make share link</button>
+  <button id="link">Save code to URL</button>
   <button id="apply" disabled="disabled">Apply</button>
   <input id="auto" type="checkbox" checked="checked" /><label for="auto">auto</label>
   <button id="show-help">?</button>
@@ -228,6 +228,7 @@ window.onload = function(){
   var autoCheck = document.getElementById("auto");
   var helpButton = document.getElementById("show-help");
   var exportButton = document.getElementById("export");
+  var rightColumn = document.getElementById("right-column");
   var link = document.getElementById("link");
   var help = document.getElementById("help");
   var svg = document.getElementById("svgOutput");
@@ -327,6 +328,7 @@ window.onload = function(){
   helpButton.onclick = function(){
     helpShown = !helpShown;
     help.style.display = helpShown ? "block" : "none";
+    rightColumn.scrollTop = helpShown ? help.offsetTop : 0;
   };
 
   window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL || null;
