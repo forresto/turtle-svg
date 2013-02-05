@@ -91,22 +91,31 @@ This will generate an SVG file with one &lt;path&gt; element.
 The turtle starts in the middle facing down.
 Angles: 0 is down, 1/4 is right, 1/2 is up, 3/4 is left
 
-// Relative commands
-turnRight(angle);      // Shortcut r()
-turnLeft(angle);       // l()
+// Pen (laser, blade) commands
+penUp();               // Shortcut u()
+penDown();             // d()
+
+// Relative move
 moveForward(distance); // f()
 
-// Absolute commands
-turnTo(angle);         // t()
-moveTo(x, y);          // m()
+// Relative turns
+turnRight(angle);      // r()
+turnLeft(angle);       // l()
 
-// Pen (laser, blade) commands
-penUp();               // u()
-penDown();             // d()
+// Absolute turns
+turnTo(angle);         // t()
 
 // Angles for turn commands are 0.0 to 1.0
 turnRight(1/4);        // Turn right 90º
 turnLeft(1/360);       // Turn left 1º
+
+// SVG move (pen is up) and line (pen is down)
+// Relative
+move(x, y); 
+line(x, y);
+// Absolute
+Move(x, y); 
+Line(x, y);
 
 // Functions and commands are JS:
 var drawRegular = function(sideCount, sideLength) {
@@ -127,25 +136,29 @@ turnLeft(1/4);
 moveForward(100);
 
 // Draw a recursive space-filling curve:
-var segmentLength = 10;
+var segmentLength = 15;
 function unit(iteration) {
   if (iteration > 0) {
     unit(iteration - 1);
-    turnRight(0.25);
+    r(0.25);
     unit(iteration - 1);
-    moveForward(segmentLength);
+    f(segmentLength);
     unit(iteration - 1);
-    turnRight(0.25);
+    r(0.25);
     unit(iteration - 1);
   }
 }
+Move(20, 20);
 turnTo(3/8);
-unit(5);
+unit(6);
+f(segmentLength);
+unit(6);
 
 // Draw golden ratio squares
 var PHI = (1 + Math.sqrt(5)) / 2;
 var scale = 300;
 var i = 0;
+Move(20, 20);
 while(scale>0.1){
     f(scale);
     l(1/4);
