@@ -59,22 +59,22 @@ moveForward = f = function (distance) {
 
 // SVG path 
 // Absolute move
-var Move = function (x, y) {
+var moveTo = function (x, y) {
   _pathD += "M " + x + " " + y + " ";
   _moveCount++;
 }
 // Relative move
-var move = function (x, y) {
+var moveBy = function (x, y) {
   _pathD += "m " + x + " " + y + " ";
   _moveCount++;
 }
 // Absolute line
-var Line = function (x, y) {
+var lineTo = function (x, y) {
   _pathD += "L " + x + " " + y + " ";
   _moveCount++;
 }
 // Relative line
-var line = function (x, y) {
+var lineBy = function (x, y) {
   _pathD += "l " + x + " " + y + " ";
   _moveCount++;
 }

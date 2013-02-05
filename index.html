@@ -1,58 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<title>Turtle Graphics to SVG</title>
-<style type="text/css" media="screen">
-  #editor { 
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 40px;
-    width: 500px;
-  }
-
-  #commands {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 480px;
-    height: 40px;
-
-    text-align: right;
-    font-size: 20px;
-  }
-    button {
-      font-size: 20px;
+  <meta charset="utf-8" />
+  <title>Turtle Graphics to SVG</title>
+  <style type="text/css" media="screen">
+    #editor { 
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 40px;
+      width: 350px;
     }
 
-  #svgContainer {
-    position: absolute;
-    top: 0;
-    left: 500px;
-    bottom: 0;
-    right: 0;
-    overflow: auto; 
-  }
+    #commands {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 330px;
+      height: 40px;
 
-  #help {
-    display: none;
+      text-align: right;
+      font-size: 20px;
+    }
+      button {
+        font-size: 15px;
+      }
 
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 510px;
+    #right-column {
+      position: absolute;
+      top: 0;
+      left: 350px;
+      bottom: 0;
+      right: 0;
+      overflow: auto; 
+    }
 
-    background-color: rgba(238, 246, 108, 0.95);
-    border-radius: 10px;
-    padding: 10px;
-    z-index: 99;
+    #export {
+      position: fixed;
+      top: 0;
+      right: 0;
+    }
 
-    overflow: auto;
-  }
+    #help {
+      display: none;
 
-</style>
+      background-color: rgba(238, 246, 108, 0.95);
+      border-radius: 10px;
+      margin: 10px;
+      padding: 10px;
+      z-index: 99;
+    }
+
+    /* ACE highlight fix */
+    .ace-monokai .ace_marker-layer .ace_selection {
+      background: #060 !important;
+    }
+
+  </style>
+
+  <script src="js/rawinflate.js"></script>
+  <script src="js/rawdeflate.js"></script>
+
 </head>
 <body>
 
@@ -66,20 +74,19 @@ moveForward(100);
 </div>
 
 <div id="commands">
-  <button id="export">Export</button>
-  <button id="apply" disabled="true">Apply</button>
-  <input id="auto" type="checkbox" checked="true" disabled="true">auto</input>
-  <!-- <button disabled="true">Export</button> -->
+  <button id="link">Make share link</button>
+  <button id="apply" disabled="disabled">Apply</button>
+  <input id="auto" type="checkbox" checked="checked" /><label for="auto">auto</label>
   <button id="show-help">?</button>
 </div>
 
-<div id="svgContainer">
-  <svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
-    <path id="turtle" d="M 0 0 " stroke="black" fill="none" vector-effect="non-scaling-stroke" />
-  </svg>
-</div>
+<div id="right-column">
 
-<div id="help">
+  <div id="svgContainer"><svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
+  <path id="turtle" d="M 0 0 " stroke="black" fill="none" vector-effect="non-scaling-stroke" />
+</svg></div>
+
+  <div id="help">
 <pre>Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>
    __   ___   ___________    ________  _____  ________   ____
   / /  / _ | / __/ __/ _ \  /_  __/ / / / _ \/_  __/ /  / __/
@@ -109,13 +116,13 @@ turnTo(angle);         // t()
 turnRight(1/4);        // Turn right 90º
 turnLeft(1/360);       // Turn left 1º
 
-// SVG move (pen is up) and line (pen is down)
+// SVG move (pen not drawing) and line (drawing)
 // Relative
-move(x, y); 
-line(x, y);
+moveBy(x, y); 
+lineBy(x, y);
 // Absolute
-Move(x, y); 
-Line(x, y);
+moveTo(x, y); 
+lineTo(x, y);
 
 // Functions and commands are JS:
 var drawRegular = function(sideCount, sideLength) {
@@ -148,18 +155,18 @@ function unit(iteration) {
     unit(iteration - 1);
   }
 }
-Move(20, 20);
+moveTo(30, 20);
 turnTo(3/8);
 unit(6);
 f(segmentLength);
 unit(6);
 
-// Draw golden ratio squares
+// Draw golden ratio squares with Phi
 var PHI = (1 + Math.sqrt(5)) / 2;
 var scale = 300;
 var i = 0;
-Move(20, 20);
-while(scale>0.1){
+moveTo(20, 20);
+while( scale &gt;= 1 ){
     f(scale);
     l(1/4);
     f(scale);
@@ -174,7 +181,38 @@ while(scale>0.1){
     l(1/4);
 }
 
-</pre></div>
+// Draw golden ratio squares with Fibonacci
+var side = 3;
+var lastSide = 0;
+var nextSide;
+moveTo(550, 350);
+while( side &lt; 1200 ){
+    // Draw square
+    f(side);
+    l(1/4);
+    f(side);
+    l(1/4);
+    f(side);
+    l(1/4);
+    f(side);
+    l(1/4);
+    f(side);
+    l(1/4);
+    f(side);
+    // Advance fib
+    nextSide = side + lastSide;
+    lastSide = side;
+    side = nextSide;
+}
+
+
+</pre>
+  </div>
+
+  <button id="export">Export</button>
+
+</div>
+
 
 <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -189,6 +227,7 @@ window.onload = function(){
   var autoCheck = document.getElementById("auto");
   var helpButton = document.getElementById("show-help");
   var exportButton = document.getElementById("export");
+  var link = document.getElementById("link");
   var help = document.getElementById("help");
   var svg = document.getElementById("svgOutput");
   var path = svg.getElementById("turtle");
@@ -198,18 +237,23 @@ window.onload = function(){
   var testCodeWorking = true;
   var testingCode;
 
+  var autoEval = true;
+
   var worker;
   var workerBusy = false;
+  var workerError = false;
 
   var setupWorker = function(){
     worker = new Worker('turtle-svg-worker.js');
     worker.onmessage = function(e) {
       if (e.data === ""){
+        workerError = true;
         applyButton.innerHTML = "JS error... restart?";
         applyButton.disabled = false;
       } else {
+        workerError = false;
         applyButton.innerHTML = "Apply";
-        applyButton.disabled = true;
+        applyButton.disabled = autoEval;
         setPath(e.data);
       }
       workerBusy = false;
@@ -217,6 +261,7 @@ window.onload = function(){
     worker.onerror = function(e) {
       console.log("worker error", e);
     };
+    workerError = false;
     workerBusy = false;
   }
   setupWorker();
@@ -233,19 +278,33 @@ window.onload = function(){
       // ?
     }
   };
-  testCode();
+
+  autoCheck.onchange = function(e){
+    autoEval = autoCheck.checked;
+    applyButton.disabled = autoEval;
+    if (autoEval) {
+      testCode();
+    }
+  };
 
   applyButton.onclick = function(){
     // Restart
-    if (worker && workerBusy) {
+    if (worker && (workerBusy || workerError)) {
       worker.terminate();
       setupWorker();
       applyButton.innerHTML = "Apply";
-      applyButton.disabled = true;
+
+      autoCheck.checked = false;
+      autoCheck.onchange();
+    } else {
+      testCode();
     }
   };
 
   session.on("change", function (e) {
+    if (!autoEval){
+      return;
+    }
     if(changeTimeout) {
       clearTimeout(changeTimeout);
     }
@@ -269,10 +328,55 @@ window.onload = function(){
     help.style.display = helpShown ? "block" : "none";
   };
 
+  window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL || null;
   exportButton.onclick = function(){
-    var svgText = document.getElementById("svgContainer").innerHTML;
-    window.open("data:image/svg+xml,"+svgText);
+    var svgString = document.getElementById("svgContainer").innerHTML;
+    var svgBlob = new Blob([svgString], { "type" : "image/svg+xml" });
+    var svgBlobURL = URL.createObjectURL(svgBlob);
+    if (svgBlobURL) {
+      window.open(svgBlobURL);
+      // window.URL.revokeObjectURL(svgBlobURL); 
+    } else {
+      window.open("data:image/svg+xml,"+svgString);
+    }
   }
+
+  // Compress code for sharing
+  link.onclick = function(){
+    // With help from https://github.com/mrdoob/htmleditor
+    var packed = encode( editor.getValue() );
+    var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
+    location.replace("#code/"+packed); 
+    // window.location.hash = "#code/"+packed;
+  }
+  var decode = function ( string ) {
+    return RawDeflate.inflate( window.atob( string ) );
+  };
+  var encode = function ( string ) {
+    return window.btoa( RawDeflate.deflate( string ) );
+  };
+
+  var loadCodeFromHash = function(e){
+    var a = window.location.hash.split("/");
+    if (a[0] === "#code") {
+      try {
+        var code = decode( a[1] );
+        editor.setValue(code, 1);
+        testCode();
+      } catch (e) {}
+    }
+  }
+  // window.onhashchange = loadCodeFromHash;
+
+  // See if code is set on load
+  if ( window.location.hash ) {
+    loadCodeFromHash();
+  } else {
+    // Default code
+    testCode();
+  }
+
+
 
 
 }
