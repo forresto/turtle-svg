@@ -357,10 +357,9 @@ window.onload = function(){
   };
 
   var loadCodeFromHash = function(e){
-    var a = window.location.hash.split("/");
-    if (a[0] === "#code") {
+    if (window.location.hash.substr(0,5) === "#code") {
       try {
-        var code = decode( a[1] );
+        var code = decode( window.location.hash.substr(6) );
         editor.setValue(code, 1);
         testCode();
       } catch (e) {}
