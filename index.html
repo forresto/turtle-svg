@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Turtle Graphics to SVG</title>
+  <title>LASER TURTLE -- Turtle Graphics to SVG</title>
   <style type="text/css" media="screen">
     #editor { 
       position: absolute;
@@ -220,8 +220,9 @@ window.onload = function(){
 
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
-  editor.getSession().setMode("ace/mode/javascript");
   var session = editor.getSession();
+  session.setMode("ace/mode/javascript");
+  session.setTabSize(2);
 
   var applyButton = document.getElementById("apply");
   var autoCheck = document.getElementById("auto");
@@ -332,7 +333,7 @@ window.onload = function(){
   exportButton.onclick = function(){
     var packed = encode( editor.getValue() );
     var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
-    var comment = "<!-- Made with LASER TURTLE; here is the source: " + perma + " -->\n";
+    var comment = "<!-- \n\nMade with LASER TURTLE; here is editor and source: \n" + perma + "\n\n-->\n";
     var svgString = document.getElementById("svgContainer").innerHTML;
     var svgBlob = new Blob([comment,svgString], { "type" : "image/svg+xml" });
     var svgBlobURL = URL.createObjectURL(svgBlob);
@@ -349,8 +350,8 @@ window.onload = function(){
     // With help from https://github.com/mrdoob/htmleditor
     var packed = encode( editor.getValue() );
     var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
-    location.replace("#code/"+packed); 
-    // window.location.hash = "#code/"+packed;
+    // window.location.replace("#code/"+packed); 
+    window.location.href = "#code/"+packed;
   }
   var decode = function ( string ) {
     return RawDeflate.inflate( window.atob( string ) );
@@ -368,7 +369,7 @@ window.onload = function(){
       } catch (e) {}
     }
   }
-  // window.onhashchange = loadCodeFromHash;
+  window.onhashchange = loadCodeFromHash;
 
   // See if code is set on load
   if ( window.location.hash ) {
