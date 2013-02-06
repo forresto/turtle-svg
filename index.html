@@ -55,6 +55,15 @@
         line-height: 30px;
       }
 
+      #info {
+        position: absolute;
+        left: 420px;
+        right: 0;
+        top: 0;
+        margin: 5px;
+        line-height: 30px;
+      }
+
       button {
         font-size: 15px;
       }
@@ -95,11 +104,20 @@
   <body>
 
     <div id="editor">
+// Press ALT + ENTER to run.
+
+turnLeft(Math.random(3.1415));
+for(var i=0; i<50000; i++) {
+  moveForward(0.001);
+}
+
+/*
 moveForward(100);
 turnLeft(1/4);
 moveForward(100);
 turnLeft(1/4);
 moveForward(100);
+*/
 </div>
 
     <div id="top-bar">
@@ -109,15 +127,17 @@ moveForward(100);
           <em>LAZER TURTLE</em>
         </div>
         <div>
-          <button id="apply" disabled="disabled" title="⌘-Enter">Run</button>
+          <button id="apply" title="⌘-Enter">Run</button>
         </div>
         <div>
-          <input id="auto" type="checkbox" checked="checked" /><label for="auto">Auto Run</label>
+          <input id="auto" type="checkbox" /><label for="auto">Auto Run</label>
         </div>
         <div>
           <button id="show-help">Help</button></br>
         </div>
       </div>
+
+      <div id="info"></div>
 
       <div id="canvas-menu">
         <div>
