@@ -32,6 +32,14 @@ window.onload = function(){
   var workerBusy = false;
   var workerError = false;
 
+  var labels = { 
+    run: "Run",
+    running: "Running",
+    restart: "Restart",
+    cancel: "Abort",
+    error: "Error"
+  };
+
   var setupWorker = function(){
     if (worker) {
       worker.terminate();
@@ -40,18 +48,18 @@ window.onload = function(){
     worker.onmessage = function(e) {
       if (e.data === ""){
         workerError = true;
-        applyButton.innerHTML = "JS error... restart?";
+        applyButton.innerHTML = labels.restart;
         // applyButton.disabled = false;
       } else {
         workerError = false;
-        applyButton.innerHTML = "Apply";
+        applyButton.innerHTML = (autoEval && labels.running) || labels.run;
         // applyButton.disabled = autoEval;
         setSVG(e.data);
       }
       workerBusy = false;
     };
     worker.onerror = function(e) {
-      applyButton.innerHTML = "JS error... restart?";
+      applyButton.innerHTML = labels.restart
       workerError = true;
     };
     workerError = false;
@@ -65,7 +73,7 @@ window.onload = function(){
     }
     if (worker && !workerBusy) {
       workerBusy = true;
-      applyButton.innerHTML = "Working... cancel?";
+      applyButton.innerHTML = labels.cancel;
       // applyButton.disabled = false;
       // testCodeStart = Date.now();
       testingCode = editor.getValue();
@@ -88,7 +96,7 @@ window.onload = function(){
 
       autoCheck.checked = false;
       autoCheck.onchange();
-      applyButton.innerHTML = "Apply";
+      applyButton.innerHTML = labels.run;
     } else {
       testCode();
     }
@@ -116,14 +124,14 @@ window.onload = function(){
 
     // Eval it?
     if (jshintOK) {
-      applyButton.innerHTML = "Apply";
+      applyButton.innerHTML = labels.run;
       if (autoEval) {
         testCode();
       } else {
         // applyButton.disabled = false;
       }
     } else {
-      applyButton.innerHTML = "Check your code.";
+      applyButton.innerHTML = labels.error;
       if (!autoEval){
         // applyButton.disabled = true;
       }
