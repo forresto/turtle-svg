@@ -73,9 +73,9 @@ var color = function(color) {
   if (!_defaultUsed){
     _paths = [];
   }
-  _color = color.replace(/\"|\'|\>|\</g, " ");
+  color = color.replace(/\"|\'|\>|</g, " ");
   var newPath = {
-    color: _color,
+    color: color,
     d: "M " + _position.x + " " + _position.y + " "
   };
   _paths.push(newPath);
@@ -90,10 +90,10 @@ var _positionTo = function(x, y) {
   _max.y = Math.max(_max.y, _position.y);
 
   _defaultUsed = true;
-}
+};
 var _positionBy = function(x, y) {
   _positionTo(_position.x+x, _position.y+y);
-}
+};
 
 // Relative moves
 var moveForward, f;
@@ -108,7 +108,7 @@ moveForward = f = function (distance) {
   _currentPath.d += _pen ? "l " : "m ";
   _currentPath.d += x + " " + y + " ";
   _moveCount++;
-}
+};
 
 // SVG path 
 // Absolute move
@@ -119,7 +119,7 @@ var moveTo = function (x, y) {
 
   _currentPath.d += "M " + x + " " + y + " ";
   _moveCount++;
-}
+};
 // Relative move
 var moveBy = function (x, y) {
   if (isNaN(x) || isNaN(y)) { return; }
@@ -128,7 +128,7 @@ var moveBy = function (x, y) {
 
   _currentPath.d += "m " + x + " " + y + " ";
   _moveCount++;
-}
+};
 // Absolute line
 var lineTo = function (x, y) {
   if (isNaN(x) || isNaN(y)) { return; }
@@ -137,7 +137,7 @@ var lineTo = function (x, y) {
 
   _currentPath.d += "L " + x + " " + y + " ";
   _moveCount++;
-}
+};
 // Relative line
 var lineBy = function (x, y) {
   if (isNaN(x) || isNaN(y)) { return; }
@@ -146,7 +146,7 @@ var lineBy = function (x, y) {
 
   _currentPath.d += "l " + x + " " + y + " ";
   _moveCount++;
-}
+};
 
 // Worker setup
 self.onmessage = function(e) {
