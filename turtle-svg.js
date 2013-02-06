@@ -149,7 +149,11 @@ window.onload = function(){
   exportButton.onclick = function(){
     var packed = encode( currentSVGCode );
     var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
-    var comment = "<!-- \n\nMade with LASER TURTLE; here is editor and source: \n" + perma + "\n\n-->\n";
+    var comment = "<!--\n\n" +
+      "Made with LASER TURTLE; here is editor and source: \n" + 
+      perma + "\n\n" +
+      currentSVGCode + "\n\n" +
+      "-->\n";
     var svgString = document.getElementById("svgContainer").innerHTML;
     var svgBlob = new Blob([comment,svgString], { "type" : "image/svg+xml" });
     var svgBlobURL = URL.createObjectURL(svgBlob);
