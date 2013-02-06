@@ -15,6 +15,8 @@ window.onload = function(){
   var link = document.getElementById("link");
   var help = document.getElementById("help");
   var svgContainer = document.getElementById("svg-container");
+  var info = document.getElementById("info");
+
   // var svg = document.getElementById("svgOutput");
   // var path = svg.getElementById("turtle");
 
@@ -26,11 +28,25 @@ window.onload = function(){
   var currentSVGCode = "";
   var currentSVGString = "";
 
-  var autoEval = true;
+  var autoEval = false;
 
   var worker;
   var workerBusy = false;
   var workerError = false;
+
+  var labels = {
+    run: "Run",
+    ready: "Ready",
+    cancel: "Abort",
+  };
+
+  var infos = {
+    syntaxError: "Check your Syntax!",
+    outputError: "FAIL.",
+    runtimeError: "Runtime Error!",
+    outputSuccess: "Created SVG.",
+    clean: ""
+  };
 
   var setupWorker = function(){
     if (worker) {
@@ -40,18 +56,19 @@ window.onload = function(){
     worker.onmessage = function(e) {
       if (e.data === ""){
         workerError = true;
-        applyButton.innerHTML = "JS error... restart?";
-        // applyButton.disabled = false;
+        info.innerHTML = infos.outputError;
       } else {
         workerError = false;
-        applyButton.innerHTML = "Apply";
-        // applyButton.disabled = autoEval;
+        // TODO: calculate + show the amount of time that was required to complete SVG createion
+        info.innerHTML = infos.outputSuccess;
         setSVG(e.data);
       }
+      applyButton.innerHTML = autoEval && labels.ready || labels.run;
+      applyButton.disabled = autoEval;
       workerBusy = false;
     };
     worker.onerror = function(e) {
-      applyButton.innerHTML = "JS error... restart?";
+      info.innerHTML = infos.runtimeError;
       workerError = true;
     };
     workerError = false;
@@ -59,14 +76,21 @@ window.onload = function(){
   }
   // setupWorker();
 
+
+  var testCodeCommand = function() {
+    if(!autoEval) {
+      testCode();
+    }
+  }
+
   var testCode = function(){
     if (!worker || workerBusy) {
       setupWorker();
     }
     if (worker && !workerBusy) {
       workerBusy = true;
-      applyButton.innerHTML = "Working... cancel?";
-      // applyButton.disabled = false;
+      applyButton.disabled = false;
+      applyButton.innerHTML = labels.cancel;
       // testCodeStart = Date.now();
       testingCode = editor.getValue();
       worker.postMessage(testingCode);
@@ -75,7 +99,8 @@ window.onload = function(){
 
   autoCheck.onchange = function(e){
     autoEval = autoCheck.checked;
-    // applyButton.disabled = autoEval;
+    applyButton.innerHTML = autoEval && labels.ready || labels.run;
+    applyButton.disabled = autoEval;
     if (autoEval) {
       testCode();
     }
@@ -85,48 +110,35 @@ window.onload = function(){
     if (worker && (workerBusy || workerError)) {
       // Restart borked worker
       setupWorker();
-
-      autoCheck.checked = false;
-      autoCheck.onchange();
-      applyButton.innerHTML = "Apply";
     } else {
       testCode();
     }
   };
 
-  // session.on("change", function (e) {
-  //   if (!autoEval){
-  //     return;
-  //   }
-  //   if(changeTimeout) {
-  //     clearTimeout(changeTimeout);
-  //   }
-  //   changeTimeout = setTimeout(testCode, 500);
-  // });
-
-
-  session.on("changeAnnotation", function(){
+  var jshintOK = function() {
     var annotations = editor.getSession().getAnnotations();
-    var jshintOK = true;
     for (key in annotations) {
       if (annotations.hasOwnProperty(key)){
-        jshintOK = false;
+        return false;
       }
     }
+    return true;
+  }
 
+  session.on("changeAnnotation", function(){
     // Eval it?
-    if (jshintOK) {
-      applyButton.innerHTML = "Apply";
+    if (jshintOK()) 
+    { 
       if (autoEval) {
         testCode();
       } else {
-        // applyButton.disabled = false;
+        applyButton.innerHTML = labels.run;
       }
-    } else {
-      applyButton.innerHTML = "Check your code.";
-      if (!autoEval){
-        // applyButton.disabled = true;
-      }
+      info.innerHTML = infos.clean;
+    } 
+    else 
+    {
+      info.innerHTML = infos.syntaxError;
     }
   });
 
@@ -231,7 +243,7 @@ window.onload = function(){
   editor.commands.addCommand({
     name: 'applyCode',
     bindKey: {win: 'Ctrl-Return',  mac: 'Command-Return'},
-    exec: testCode
+    exec: testCodeCommand
   });
 
 
