@@ -8,7 +8,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      bottom: 40px;
+      bottom: 30px;
       width: 400px;
     }
 
@@ -16,15 +16,18 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 380px;
-      height: 40px;
+      width: 400px;
 
       text-align: right;
       font-size: 20px;
+
+      background-color: white;
+      z-index: 99;
     }
-      button {
-        font-size: 15px;
-      }
+
+    button {
+      font-size: 15px;
+    }
 
     #right-column {
       position: absolute;
@@ -39,6 +42,7 @@
       position: fixed;
       top: 0;
       right: 0;
+      font-size: 20px;
     }
 
     #help {
@@ -86,9 +90,7 @@ moveForward(100);
 
 <div id="right-column">
 
-  <div id="svgContainer"><svg id="svgOutput" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
-  <path id="turtle" d="M 0 0 " stroke="black" fill="none" vector-effect="non-scaling-stroke" />
-</svg></div>
+  <div id="svg-container"></div>
 
   <div id="help">
 <pre>Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>

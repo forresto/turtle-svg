@@ -14,8 +14,9 @@ window.onload = function(){
   var rightColumn = document.getElementById("right-column");
   var link = document.getElementById("link");
   var help = document.getElementById("help");
-  var svg = document.getElementById("svgOutput");
-  var path = svg.getElementById("turtle");
+  var svgContainer = document.getElementById("svg-container");
+  // var svg = document.getElementById("svgOutput");
+  // var path = svg.getElementById("turtle");
 
   // var changeTimeout;
   var testCodeStart;
@@ -23,6 +24,7 @@ window.onload = function(){
   var testingCode;
 
   var currentSVGCode = "";
+  var currentSVGString = "";
 
   var autoEval = true;
 
@@ -41,7 +43,7 @@ window.onload = function(){
         workerError = false;
         applyButton.innerHTML = "Apply";
         applyButton.disabled = autoEval;
-        setPath(e.data);
+        setSVG(e.data);
       }
       workerBusy = false;
     };
@@ -124,19 +126,21 @@ window.onload = function(){
     }
   });
 
-  var setPath = function(message){
-    var d = message.path;
+  var setSVG = function(message){
     currentSVGCode = message.code;
+    currentSVGString = message.svg;
 
-    path.setAttributeNS(null, "d", d);
+    svgContainer.innerHTML = currentSVGString;
 
-    var bBox = path.getBBox();
-    var w = Math.max(500, Math.ceil(bBox.x+bBox.width+20));
-    var h = Math.max(500, Math.ceil(bBox.y+bBox.height+20));
-    svg.setAttribute("width", w);
-    svg.setAttribute("height", h);
+    // var d = path.d;
+    // path.setAttributeNS(null, "d", d);
+
+    // var bBox = path.getBBox();
+    // var w = Math.max(500, Math.ceil(bBox.x+bBox.width+20));
+    // var h = Math.max(500, Math.ceil(bBox.y+bBox.height+20));
+    // svg.setAttribute("width", w);
+    // svg.setAttribute("height", h);
   };
-
 
   var helpShown = false;
   helpButton.onclick = function(){
@@ -154,16 +158,21 @@ window.onload = function(){
       perma + "\n\n" +
       currentSVGCode + "\n\n" +
       "-->\n";
-    var svgString = document.getElementById("svgContainer").innerHTML;
-    var svgBlob = new Blob([comment,svgString], { "type" : "image/svg+xml" });
+    var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
     var svgBlobURL = URL.createObjectURL(svgBlob);
     if (svgBlobURL) {
       window.open(svgBlobURL);
       // window.URL.revokeObjectURL(svgBlobURL); 
     } else {
-      window.open("data:image/svg+xml,"+svgString);
+      window.open("data:image/svg+xml,"+currentSVGString);
     }
   }
+
+
+  /*
+    Code saving and loading
+  */
+
 
   // Compress code for sharing
   link.onclick = function(){
