@@ -33,58 +33,62 @@ window.onload = function(){
   var workerError = false;
 
   var setupWorker = function(){
+    if (worker) {
+      worker.terminate();
+    }
     worker = new Worker('turtle-svg-worker.js');
     worker.onmessage = function(e) {
       if (e.data === ""){
         workerError = true;
         applyButton.innerHTML = "JS error... restart?";
-        applyButton.disabled = false;
+        // applyButton.disabled = false;
       } else {
         workerError = false;
         applyButton.innerHTML = "Apply";
-        applyButton.disabled = autoEval;
+        // applyButton.disabled = autoEval;
         setSVG(e.data);
       }
       workerBusy = false;
     };
     worker.onerror = function(e) {
-      console.log("worker error", e);
+      applyButton.innerHTML = "JS error... restart?";
+      workerError = true;
     };
     workerError = false;
     workerBusy = false;
   }
-  setupWorker();
+  // setupWorker();
 
   var testCode = function(){
+    if (!worker || workerBusy) {
+      setupWorker();
+    }
     if (worker && !workerBusy) {
       workerBusy = true;
       applyButton.innerHTML = "Working... cancel?";
-      applyButton.disabled = false;
-      testCodeStart = Date.now();
+      // applyButton.disabled = false;
+      // testCodeStart = Date.now();
       testingCode = editor.getValue();
-      worker.postMessage(testingCode);      
-    } else {
-      // ?
+      worker.postMessage(testingCode);
     }
   };
 
   autoCheck.onchange = function(e){
     autoEval = autoCheck.checked;
-    applyButton.disabled = autoEval;
+    // applyButton.disabled = autoEval;
     if (autoEval) {
       testCode();
     }
   };
 
   applyButton.onclick = function(){
-    // Restart
     if (worker && (workerBusy || workerError)) {
-      worker.terminate();
+      // Restart borked worker
       setupWorker();
-      applyButton.innerHTML = "Apply";
 
       autoCheck.checked = false;
       autoCheck.onchange();
+      applyButton.innerHTML = "Apply";
     } else {
       testCode();
     }
@@ -116,12 +120,12 @@ window.onload = function(){
       if (autoEval) {
         testCode();
       } else {
-        applyButton.disabled = false;
+        // applyButton.disabled = false;
       }
     } else {
       applyButton.innerHTML = "Check your code.";
       if (!autoEval){
-        applyButton.disabled = true;
+        // applyButton.disabled = true;
       }
     }
   });
@@ -151,6 +155,8 @@ window.onload = function(){
 
   window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL || null;
   exportButton.onclick = function(){
+    if (!currentSVGString) { return; }
+
     var packed = encode( currentSVGCode );
     var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
     var comment = "<!--\n\n" +
@@ -175,13 +181,14 @@ window.onload = function(){
 
 
   // Compress code for sharing
-  link.onclick = function(){
+  var saveToURL = function(){
     // With help from https://github.com/mrdoob/htmleditor
     var packed = encode( editor.getValue() );
     var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
     // window.location.replace("#code/"+packed); 
     window.location.href = "#code/"+packed;
   }
+  link.onclick = saveToURL;
   var decode = function ( string ) {
     return RawDeflate.inflate( window.atob( string ) );
   };
@@ -193,8 +200,10 @@ window.onload = function(){
     if (window.location.hash.substr(0,5) === "#code") {
       try {
         var code = decode( window.location.hash.substr(6) );
-        editor.setValue(code, 1);
-        testCode();
+        if (code !== editor.getValue()){
+          editor.setValue(code, 1);
+          testCode();
+        }
       } catch (e) {}
     }
   }
@@ -207,5 +216,23 @@ window.onload = function(){
     // Default code
     testCode();
   }
+
+
+  /*
+    Key binding 
+  */
+
+  editor.commands.addCommand({
+    name: 'saveToURL',
+    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+    exec: saveToURL
+  });
+
+  editor.commands.addCommand({
+    name: 'applyCode',
+    bindKey: {win: 'Ctrl-Return',  mac: 'Command-Return'},
+    exec: testCode
+  });
+
 
 }
