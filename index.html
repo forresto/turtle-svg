@@ -167,18 +167,18 @@ var scale = 300;
 var i = 0;
 moveTo(20, 20);
 while( scale &gt;= 1 ){
-    f(scale);
-    l(1/4);
-    f(scale);
-    l(1/4);
-    f(scale);
-    l(1/4);
-    f(scale);
-    l(1/4);
-    f(scale);
-    scale = scale/PHI;
-    f(scale);
-    l(1/4);
+  f(scale);
+  l(1/4);
+  f(scale);
+  l(1/4);
+  f(scale);
+  l(1/4);
+  f(scale);
+  l(1/4);
+  f(scale);
+  scale = scale/PHI;
+  f(scale);
+  l(1/4);
 }
 
 // Draw golden ratio squares with Fibonacci
@@ -187,22 +187,22 @@ var lastSide = 0;
 var nextSide;
 moveTo(550, 350);
 while( side &lt; 1200 ){
-    // Draw square
-    f(side);
-    l(1/4);
-    f(side);
-    l(1/4);
-    f(side);
-    l(1/4);
-    f(side);
-    l(1/4);
-    f(side);
-    l(1/4);
-    f(side);
-    // Advance fib
-    nextSide = side + lastSide;
-    lastSide = side;
-    side = nextSide;
+  // Draw square
+  f(side);
+  l(1/4);
+  f(side);
+  l(1/4);
+  f(side);
+  l(1/4);
+  f(side);
+  l(1/4);
+  f(side);
+  l(1/4);
+  f(side);
+  // Advance fib
+  nextSide = side + lastSide;
+  lastSide = side;
+  side = nextSide;
 }
 
 
