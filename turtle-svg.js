@@ -151,14 +151,13 @@ window.onload = function(){
       perma + "\n\n" +
       currentSVGCode.replace(/\-\-/g,"- - ") + "\n\n" +
       "-->\n";
-    var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
-    var svgBlobURL = window.URL.createObjectURL(svgBlob);
-    if (svgBlobURL) {
-      window.open(svgBlobURL);
-      // window.URL.revokeObjectURL(svgBlobURL); 
-    } else {
-      window.open("data:image/svg+xml,"+currentSVGString);
-    }
+    // var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
+    // var svgBlobURL = window.URL.createObjectURL(svgBlob);
+    // if (svgBlobURL) {
+    //   window.open(svgBlobURL);
+    // } else {
+      window.open("data:image/svg+xml,"+encodeURIComponent(comment+currentSVGString));
+    // }
   };
 
 
