@@ -162,7 +162,7 @@ window.onload = function(){
     var comment = "<!--\n\n" +
       "Made with LASER TURTLE; here is editor and source: \n" + 
       perma + "\n\n" +
-      currentSVGCode + "\n\n" +
+      currentSVGCode.replace(/\-\-/g,"- -") + "\n\n" +
       "-->\n";
     var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
     var svgBlobURL = URL.createObjectURL(svgBlob);
