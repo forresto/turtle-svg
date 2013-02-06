@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>LASER TURTLE -- Turtle Graphics to SVG</title>
-  <style type="text/css" media="screen">
+  <head>
+    <meta charset="utf-8" />
+    <title>LASER TURTLE -- Turtle Graphics to SVG</title>
+    <style type="text/css" media="screen">
     #editor { 
       position: absolute;
       top: 0;
@@ -60,40 +60,40 @@
       background: #060 !important;
     }
 
-  </style>
+    </style>
 
-  <!-- Libs -->
-  <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/rawinflate.js"></script>
-  <script src="js/rawdeflate.js"></script>
-  <!-- App -->
-  <script src="turtle-svg.js"></script>
+    <!-- Libs -->
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/rawinflate.js"></script>
+    <script src="js/rawdeflate.js"></script>
+    <!-- App -->
+    <script src="turtle-svg.js"></script>
 
-</head>
-<body>
+  </head>
+  <body>
 
-<div id="editor">// Press [?] for help
+    <div id="editor">// Press [?] for help
 
-moveForward(100);
-turnLeft(1/4);
-moveForward(100);
-turnLeft(1/4);
-moveForward(100);
-</div>
+      moveForward(100);
+      turnLeft(1/4);
+      moveForward(100);
+      turnLeft(1/4);
+      moveForward(100);
+    </div>
 
-<div id="commands">
-  <button id="link" title="⌘-S">Save code to URL</button>
-  <button id="apply" title="⌘-Enter">Apply</button>
-  <input id="auto" type="checkbox" checked="checked" /><label for="auto">auto</label>
-  <button id="show-help">?</button>
-</div>
+    <div id="commands">
+      <button id="link" title="⌘-S">Save code to URL</button>
+      <button id="apply" title="⌘-Enter">Apply</button>
+      <input id="auto" type="checkbox" checked="checked" /><label for="auto">auto</label>
+      <button id="show-help">?</button>
+    </div>
 
-<div id="right-column">
+    <div id="right-column">
+      <div id="svg-container"></div>
+      <div id="help">
 
-  <div id="svg-container"></div>
-
-  <div id="help">
-<pre>Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>
+        <pre>
+Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>
    __   ___   ___________    ________  _____  ________   ____
   / /  / _ | / __/ __/ _ \  /_  __/ / / / _ \/_  __/ /  / __/
  / /__/ __ |_\ \/ _// , _/   / / / /_/ / , _/ / / / /__/ _/  
@@ -213,11 +213,9 @@ while( side &lt; 1200 ){
 
 
 </pre>
-  </div>
 
-  <button id="export">Export SVG</button>
-
-</div>
-
-</body>
+      </div>
+      <button id="export">Export SVG</button>
+    </div>
+  </body>
 </html>
