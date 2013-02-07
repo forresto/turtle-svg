@@ -15,6 +15,7 @@ window.onload = function(){
   var link = document.getElementById("link");
   var shareLink = document.getElementById("share-link");
   var help = document.getElementById("help");
+  var helpClose = document.getElementById("help-close");
   var svgContainer = document.getElementById("svg-container");
   var svgImage = document.getElementById("svg-image");
   var info = document.getElementById("info");
@@ -167,11 +168,13 @@ window.onload = function(){
   };
 
   var helpShown = false;
-  helpButton.onclick = function(){
+  var toggleHelp = function(){
     helpShown = !helpShown;
     help.style.display = helpShown ? "block" : "none";
     rightColumn.scrollTop = helpShown ? help.offsetTop : 0;
   };
+  helpButton.onclick = toggleHelp;
+  helpClose.onclick = toggleHelp;
 
   exportButton.onclick = function(){
     if (!currentSVGString) { return; }
