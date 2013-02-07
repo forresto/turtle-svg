@@ -21,6 +21,8 @@ window.onload = function(){
   var info = document.getElementById("info");
 
   var testingCode;
+  var testCodeStart;
+  var svgGenTime;
 
   var currentSVGCode = "";
   var currentSVGString = "";
@@ -41,7 +43,13 @@ window.onload = function(){
     syntaxError: "Check your Syntax!",
     outputError: "FAIL.",
     runtimeError: "Runtime Error!",
-    outputSuccess: "Created SVG.",
+    processing: "Working...",
+    outputSuccess: function(created, loaded){
+      var c = Math.round(created/1000*100)/100;
+      var l = loaded - testCodeStart - created;
+      l = Math.round(l/1000*100)/100;
+      return "SVG created in " + c + "s, loaded in " + l + "s";
+    },
     clean: ""
   };
 
@@ -56,8 +64,8 @@ window.onload = function(){
         info.innerHTML = infos.outputError;
       } else {
         workerError = false;
-        // TODO: calculate + show the amount of time that was required to complete SVG createion
-        info.innerHTML = infos.outputSuccess;
+        // calculate + show the amount of time that was required to complete SVG creation
+        svgGenTime = Date.now() - testCodeStart;
         setSVG(e.data);
       }
       applyButton.innerHTML = autoEval && labels.ready || labels.run;
@@ -79,7 +87,8 @@ window.onload = function(){
     if (worker && !workerBusy) {
       workerBusy = true;
       applyButton.innerHTML = labels.cancel;
-      // testCodeStart = Date.now();
+      testCodeStart = Date.now();
+      info.innerHTML = infos.processing;
       testingCode = editor.getValue();
       worker.postMessage(testingCode);
     }
@@ -164,6 +173,9 @@ window.onload = function(){
   var setSVG = function(message){
     currentSVGCode = message.code;
     currentSVGString = message.svg;
+    svgImage.onload = function(){
+      info.innerHTML = infos.outputSuccess(svgGenTime, Date.now());
+    };
     svgImage.src = buildURL(currentSVGString);
   };
 
