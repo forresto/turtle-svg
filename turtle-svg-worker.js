@@ -4,7 +4,7 @@ var _accuracy = 1000000000;
 
 // Reset turtle
 var _moveCount, _pen, _position, _vector, _currentAngle, _paths, _currentPath, _max, _defaultUsed;
-var resetTurtle = function(){
+var _resetTurtle = function(){
   _moveCount = 0;
   _pen = true;
   _position = {
@@ -16,8 +16,8 @@ var resetTurtle = function(){
     y: 1 * _accuracy
   };
   _max = {
-    x: 480,
-    y: 480
+    x: 500,
+    y: 500
   };
   _currentAngle = 0;
   _paths = [];
@@ -151,15 +151,15 @@ var lineBy = function (x, y) {
 // Worker setup
 self.onmessage = function(e) {
 
-  resetTurtle();
+  _resetTurtle();
 
   try {
     eval(e.data);
 
     // Build SVG string
     var svg = '<svg id="turtle-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="'+
-      Math.ceil(_max.x + 20) + '" height="' +
-      Math.ceil(_max.y + 20) +'">'+"\n";
+      Math.ceil(_max.x) + '" height="' +
+      Math.ceil(_max.y) +'">'+"\n";
     for (var i=0; i<_paths.length; i++) {
       var path = _paths[i];
       svg += '  <path id="turtle-path-'+ i +'" '+

@@ -227,7 +227,10 @@ window.onload = function(){
     document.title = "Saved " + now.toLocaleTimeString() + " -- LASER TURTLE";
     window.location.href = "#code/"+packed;
   };
-  link.onclick = saveToURL;
+  link.onclick = function(){
+    saveToURL();
+    shareLink.select();
+  };
   var decode = function ( string ) {
     return RawDeflate.inflate( window.atob( string ) );
   };
