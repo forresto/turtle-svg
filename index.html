@@ -1,99 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>LASER TURTLE -- Turtle Graphics to SVG</title>
-  <style type="text/css" media="screen">
-    #editor { 
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 30px;
-      width: 400px;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <title>LASER TURTLE -- Turtle Graphics to SVG</title>
+    <style type="text/css" media="screen">
 
-    #commands {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 400px;
+      body {
+        font-family: Arial
+      }
 
-      text-align: right;
-      font-size: 20px;
+      #editor {
+        position: absolute;
+        top: 40px;
+        bottom:0;
+        left: 0;
+        width: 420px;
+      }
 
-      background-color: white;
-      z-index: 99;
-    }
+      #top-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #ccc;
+        height: 40px;
+        z-index: 99;
+      }
 
-    button {
-      font-size: 15px;
-    }
+      #commands {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
 
-    #right-column {
-      position: absolute;
-      top: 0;
-      left: 400px;
-      bottom: 0;
-      right: 0;
-      overflow: auto; 
-    }
+      #commands > div {
+        margin: 5px;
+        padding-left: 10px;
+        float: left;
+        font-size: 15px;
+        line-height: 30px;
+      }
 
-    #export {
-      position: fixed;
-      top: 0;
-      right: 0;
-      font-size: 20px;
-    }
+      #canvas-menu {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
 
-    #help {
-      display: none;
+      #canvas-menu > div {
+        margin: 5px;
+        padding-right: 10px;
+        float: left;
+        font-size: 15px;
+        line-height: 30px;
+      }
 
-      background-color: rgba(238, 246, 108, 0.95);
-      border-radius: 10px;
-      margin: 10px;
-      padding: 10px;
-      z-index: 99;
-    }
+      #info {
+        position: absolute;
+        left: 420px;
+        right: 0;
+        top: 0;
+        margin: 5px;
+        line-height: 30px;
+      }
 
-    /* ACE highlight fix */
-    .ace-monokai .ace_marker-layer .ace_selection {
-      background: #060 !important;
-    }
+      button {
+        font-size: 15px;
+      }
 
-  </style>
+      #apply {
+        width: 80px;
+      }
 
-  <!-- Libs -->
-  <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script src="js/rawinflate.js"></script>
-  <script src="js/rawdeflate.js"></script>
-  <!-- App -->
-  <script src="turtle-svg.js"></script>
+      #right-column {
+        position: absolute;
+        top: 0;
+        left: 400px;
+        bottom: 0;
+        right: 0;
+        overflow: auto; 
+      }
 
-</head>
-<body>
+      #help {
+        display: none;
 
-<div id="editor">// Press [?] for help
+        background-color: rgba(238, 246, 108, 0.95);
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px;
+        z-index: 99;
+      }
 
-moveForward(100);
-turnLeft(1/4);
-moveForward(100);
-turnLeft(1/4);
-moveForward(100);
+      #share-link {
+        display: none;
+        width: 300px;
+      }
+
+    </style>
+
+    <!-- Libs -->
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/rawinflate.js"></script>
+    <script src="js/rawdeflate.js"></script>
+    <!-- App -->
+    <script src="turtle-svg.js"></script>
+
+  </head>
+  <body>
+
+    <div id="editor">// Press ALT + ENTER to run.
+
+for(var i=0; i&lt;50000; i++) {
+  turnLeft(Math.random());
+  moveForward(1);
+}
 </div>
 
-<div id="commands">
-  <button id="link" title="⌘-S">Save code to URL</button>
-  <button id="apply" title="⌘-Enter">Apply</button>
-  <input id="auto" type="checkbox" checked="checked" /><label for="auto">auto</label>
-  <button id="show-help">?</button>
-</div>
+    <div id="top-bar">
 
-<div id="right-column">
+      <div id="commands">
+        <div>
+          <em>LASER TURTLE</em>
+        </div>
+        <div>
+          <button id="apply" title="⌘-Enter">Run</button>
+        </div>
+        <div>
+          <input id="auto" type="checkbox" /><label for="auto">Auto Run</label>
+        </div>
+        <div>
+          <button id="show-help">Help</button></br>
+        </div>
+      </div>
 
-  <div id="svg-container"></div>
+      <div id="info"></div>
 
-  <div id="help">
-<pre>Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>
+      <div id="canvas-menu">
+        <div>
+          <input id="share-link" type="text" />
+        </div>
+        <div>
+          <button id="link" title="⌘-S">Share Code</button>
+        </div>
+        <div>
+          <button id="export">Export SVG</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="right-column">
+      <div id="svg-container"></div>
+      <div id="help">
+
+        <pre>
+Source: <a href="https://github.com/forresto/turtle-svg">https://github.com/forresto/turtle-svg</a>
    __   ___   ___________    ________  _____  ________   ____
   / /  / _ | / __/ __/ _ \  /_  __/ / / / _ \/_  __/ /  / __/
  / /__/ __ |_\ \/ _// , _/   / / / /_/ / , _/ / / / /__/ _/  
@@ -213,11 +274,8 @@ while( side &lt; 1200 ){
 
 
 </pre>
-  </div>
 
-  <button id="export">Export SVG</button>
-
-</div>
-
-</body>
+      </div>
+    </div>
+  </body>
 </html>

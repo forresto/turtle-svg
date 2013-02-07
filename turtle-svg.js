@@ -13,19 +13,35 @@ window.onload = function(){
   var exportButton = document.getElementById("export");
   var rightColumn = document.getElementById("right-column");
   var link = document.getElementById("link");
+  var shareLink = document.getElementById("share-link");
   var help = document.getElementById("help");
   var svgContainer = document.getElementById("svg-container");
+  var info = document.getElementById("info");
 
   var testingCode;
 
   var currentSVGCode = "";
   var currentSVGString = "";
 
-  var autoEval = true;
+  var autoEval = false;
 
   var worker;
   var workerBusy = false;
   var workerError = false;
+
+  var labels = {
+    run: "Run",
+    ready: "Ready",
+    cancel: "Abort",
+  };
+
+  var infos = {
+    syntaxError: "Check your Syntax!",
+    outputError: "FAIL.",
+    runtimeError: "Runtime Error!",
+    outputSuccess: "Created SVG.",
+    clean: ""
+  };
 
   var setupWorker = function(){
     if (worker) {
@@ -35,16 +51,18 @@ window.onload = function(){
     worker.onmessage = function(e) {
       if (e.data === ""){
         workerError = true;
-        applyButton.innerHTML = "JS error... restart?";
+        info.innerHTML = infos.outputError;
       } else {
         workerError = false;
-        applyButton.innerHTML = "Apply";
+        // TODO: calculate + show the amount of time that was required to complete SVG createion
+        info.innerHTML = infos.outputSuccess;
         setSVG(e.data);
       }
+      applyButton.innerHTML = autoEval && labels.ready || labels.run;
       workerBusy = false;
     };
-    worker.onerror = function() {
-      applyButton.innerHTML = "JS error... restart?";
+    worker.onerror = function(e) {
+      info.innerHTML = infos.runtimeError;
       workerError = true;
     };
     workerError = false;
@@ -58,7 +76,8 @@ window.onload = function(){
     }
     if (worker && !workerBusy) {
       workerBusy = true;
-      applyButton.innerHTML = "Working... cancel?";
+      applyButton.innerHTML = labels.cancel;
+      // testCodeStart = Date.now();
       testingCode = editor.getValue();
       worker.postMessage(testingCode);
     }
@@ -66,6 +85,7 @@ window.onload = function(){
 
   autoCheck.onchange = function(){
     autoEval = autoCheck.checked;
+    applyButton.innerHTML = autoEval && labels.ready || labels.run;
     if (autoEval) {
       testCode();
     }
@@ -75,32 +95,35 @@ window.onload = function(){
     if (worker && (workerBusy || workerError)) {
       // Restart borked worker
       setupWorker();
-
-      autoCheck.checked = false;
-      autoCheck.onchange();
-      applyButton.innerHTML = "Apply";
     } else {
       testCode();
     }
   };
 
-  session.on("changeAnnotation", function(){
+  var jshintOK = function() {
     var annotations = editor.getSession().getAnnotations();
-    var jshintOK = true;
-    for (var key in annotations) {
+    for (key in annotations) {
       if (annotations.hasOwnProperty(key)){
-        jshintOK = false;
+        return false;
       }
     }
+    return true;
+  };
 
+  session.on("changeAnnotation", function(){
     // Eval it?
-    if (jshintOK) {
-      applyButton.innerHTML = "Apply";
+    if (jshintOK()) 
+    { 
       if (autoEval) {
         testCode();
-      } 
-    } else {
-      applyButton.innerHTML = "Check your code.";
+      } else {
+        applyButton.innerHTML = labels.run;
+      }
+      info.innerHTML = infos.clean;
+    } 
+    else 
+    {
+      info.innerHTML = infos.syntaxError;
     }
   });
 
@@ -165,12 +188,17 @@ window.onload = function(){
     Code saving and loading
   */
 
+  shareLink.onclick = function() {
+    this.select();
+  };
 
   // Compress code for sharing
   var saveToURL = function(){
     // With help from https://github.com/mrdoob/htmleditor
     var packed = encode( editor.getValue() );
-    // var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
+    shareLink.style.display = "inline";
+    shareLink.value = 'http://forresto.github.com/turtle-svg/#code/' + packed;
+    shareLink.select();
     var now = new Date();
     document.title = "Saved " + now.toLocaleTimeString() + " -- LASER TURTLE";
     window.location.href = "#code/"+packed;
