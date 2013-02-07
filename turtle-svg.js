@@ -36,7 +36,7 @@ window.onload = function(){
   var labels = {
     run: "Run",
     ready: "Ready",
-    cancel: "Abort",
+    cancel: "Abort"
   };
 
   var infos = {
@@ -113,7 +113,7 @@ window.onload = function(){
 
   var jshintOK = function() {
     var annotations = editor.getSession().getAnnotations();
-    for (key in annotations) {
+    for (var key in annotations) {
       if (annotations.hasOwnProperty(key)){
         return false;
       }
@@ -168,7 +168,7 @@ window.onload = function(){
     } else {
       return "data:image/svg+xml,"+encodeURIComponent(svgString);
     }
-  }
+  };
 
   var setSVG = function(message){
     currentSVGCode = message.code;
