@@ -152,25 +152,18 @@ window.onload = function(){
       if (svgBlobURL) {
         window.URL.revokeObjectURL(svgBlobURL);
       }
-      var svgBlob = new Blob([currentSVGString], { "type" : "image/svg+xml" });
+      var svgBlob = new Blob([svgString], { "type" : "image/svg+xml" });
       svgBlobURL = window.URL.createObjectURL(svgBlob);
       return svgBlobURL;
     } else {
-      return "data:image/svg+xml,"+encodeURIComponent(comment+currentSVGString);
+      return "data:image/svg+xml,"+encodeURIComponent(svgString);
     }
   }
 
   var setSVG = function(message){
     currentSVGCode = message.code;
     currentSVGString = message.svg;
-
-    // svgContainer.innerHTML = currentSVGString;
     svgImage.src = buildURL(currentSVGString);
-
-    // while (svgContainer.hasChildNodes()) {
-    //   svgContainer.removeChild(svgContainer.lastChild);
-    // }
-    // svgContainer.appendChild( buildSVG(message.svg) );
   };
 
   var helpShown = false;
@@ -190,13 +183,14 @@ window.onload = function(){
       perma + "\n\n" +
       currentSVGCode.replace(/\-\-/g,"- - ") + "\n\n" +
       "-->\n";
-    // var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
-    // var svgBlobURL = window.URL.createObjectURL(svgBlob);
-    // if (svgBlobURL) {
-    //   window.open(svgBlobURL);
-    // } else {
+    var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
+    var svgBlobURL = window.URL.createObjectURL(svgBlob);
+    if (svgBlobURL) {
+      // FIX this doesn't work in Safari
+      window.open(svgBlobURL);
+    } else {
       window.open("data:image/svg+xml,"+encodeURIComponent(comment+currentSVGString));
-    // }
+    }
   };
 
 
