@@ -236,23 +236,15 @@ window.onload = function(){
   };
 
   exportPNGButton.onclick = function(){
-    if (svgImage) {
-      var canvas = document.createElement("canvas");
-      var context = canvas.getContext("2d");
-      canvas.width = svgImage.width;
-      canvas.height = svgImage.height;
-      var p = Date.now();
-      console.log(p);
-      context.drawImage(svgImage, 0, 0);
-      console.log(Date.now() - p);
-      p = Date.now();
-      var dataURL = canvas.toDataURL();
-      console.log(Date.now() - p);
-      p = Date.now();
-      window.open( dataURL );
-      console.log(Date.now() - p);
-      p = Date.now();
-    }
+    if (!svgImage) { return; }
+
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    canvas.width = svgImage.width;
+    canvas.height = svgImage.height;
+    context.drawImage(svgImage, 0, 0);
+    var pngDataURL = canvas.toDataURL();
+    window.open( pngDataURL );
   };
 
 
