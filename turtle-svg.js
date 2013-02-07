@@ -16,6 +16,7 @@ window.onload = function(){
   var shareLink = document.getElementById("share-link");
   var help = document.getElementById("help");
   var svgContainer = document.getElementById("svg-container");
+  var svgImage = document.getElementById("svg-image");
   var info = document.getElementById("info");
 
   var testingCode;
@@ -144,11 +145,27 @@ window.onload = function(){
   //   }
   // };
 
+  window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL || null;
+  var svgBlobURL;
+  var buildURL = function(svgString){
+    if (window.URL && window.URL.createObjectURL) {
+      if (svgBlobURL) {
+        window.URL.revokeObjectURL(svgBlobURL);
+      }
+      var svgBlob = new Blob([currentSVGString], { "type" : "image/svg+xml" });
+      svgBlobURL = window.URL.createObjectURL(svgBlob);
+      return svgBlobURL;
+    } else {
+      return "data:image/svg+xml,"+encodeURIComponent(comment+currentSVGString);
+    }
+  }
+
   var setSVG = function(message){
     currentSVGCode = message.code;
     currentSVGString = message.svg;
 
-    svgContainer.innerHTML = currentSVGString;
+    // svgContainer.innerHTML = currentSVGString;
+    svgImage.src = buildURL(currentSVGString);
 
     // while (svgContainer.hasChildNodes()) {
     //   svgContainer.removeChild(svgContainer.lastChild);
@@ -163,7 +180,6 @@ window.onload = function(){
     rightColumn.scrollTop = helpShown ? help.offsetTop : 0;
   };
 
-  window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL || null;
   exportButton.onclick = function(){
     if (!currentSVGString) { return; }
 
