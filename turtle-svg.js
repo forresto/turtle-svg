@@ -32,18 +32,21 @@ window.onload = function(){
   var worker;
   var workerBusy = false;
   var workerError = false;
+  var loadingSVG = false;
 
   var labels = {
     run: "Run",
-    ready: "Ready",
-    cancel: "Abort"
+    cancel: "Abort",
+    loading: "Busy"
   };
 
   var infos = {
     syntaxError: "Check your Syntax!",
     outputError: "FAIL.",
     runtimeError: "Runtime Error!",
-    processing: "Working...",
+    processing: "Calculating...",
+    rendering: "Loading...",
+    cancelled: "Aborted.",
     outputSuccess: function(created, loaded){
       var c = Math.round(created/1000*100)/100;
       var l = loaded - testCodeStart - created;
@@ -53,23 +56,39 @@ window.onload = function(){
     clean: ""
   };
 
+
+
+  var showStats = function() {
+    info.innerHTML = workerError ? infos.outputError : infos.outputSuccess(svgGenTime, Date.now());
+    applyButton.innerHTML = labels.run;
+    applyButton.disabled = false;
+  };
+
   var setupWorker = function(){
+
     if (worker) {
       worker.terminate();
+      applyButton.innerHTML = labels.run;
+      info.innerHTML = infos.cancelled;
     }
+
     worker = new Worker('turtle-svg-worker.js');
     worker.onmessage = function(e) {
-      if (e.data === ""){
-        workerError = true;
-        info.innerHTML = infos.outputError;
+
+      workerBusy = false;
+      workerError = (e.data === "");
+
+      if (workerError){
+        showStats();
       } else {
-        workerError = false;
+        info.innerHTML = infos.rendering;
+        applyButton.innerHTML = labels.loading;
+        applyButton.disabled = true;
         // calculate + show the amount of time that was required to complete SVG creation
         svgGenTime = Date.now() - testCodeStart;
-        setSVG(e.data);
+        setSVG(e.data, showStats);
       }
-      applyButton.innerHTML = autoEval && labels.ready || labels.run;
-      workerBusy = false;
+
     };
     worker.onerror = function(e) {
       info.innerHTML = infos.runtimeError;
@@ -78,9 +97,16 @@ window.onload = function(){
     workerError = false;
     workerBusy = false;
   };
+
   // setupWorker();
 
   var testCode = function(){
+
+    // don't do anything unless the SVG has finished loading.
+    // otherwise things get real nasty.
+    if(loadingSVG) {
+      return;
+    }
     if (!worker || workerBusy) {
       setupWorker();
     }
@@ -96,7 +122,6 @@ window.onload = function(){
 
   autoCheck.onchange = function(){
     autoEval = autoCheck.checked;
-    applyButton.innerHTML = autoEval && labels.ready || labels.run;
     if (autoEval) {
       testCode();
     }
@@ -123,17 +148,12 @@ window.onload = function(){
 
   session.on("changeAnnotation", function(){
     // Eval it?
-    if (jshintOK()) 
-    { 
+    if (jshintOK()) { 
+      info.innerHTML = infos.clean;
       if (autoEval) {
         testCode();
-      } else {
-        applyButton.innerHTML = labels.run;
       }
-      info.innerHTML = infos.clean;
-    } 
-    else 
-    {
+    } else {
       info.innerHTML = infos.syntaxError;
     }
   });
@@ -170,12 +190,14 @@ window.onload = function(){
     }
   };
 
-  var setSVG = function(message){
+  var setSVG = function(message, cb_onload){
     currentSVGCode = message.code;
     currentSVGString = message.svg;
-    svgImage.onload = function(){
-      info.innerHTML = infos.outputSuccess(svgGenTime, Date.now());
-    };
+    loadingSVG = true;
+    svgImage.onload = function() {
+      cb_onload();
+      loadingSVG = false;
+    }
     svgImage.src = buildURL(currentSVGString);
   };
 
