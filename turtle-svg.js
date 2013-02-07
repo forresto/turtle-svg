@@ -223,7 +223,6 @@ window.onload = function(){
     var packed = encode( editor.getValue() );
     shareLink.style.display = "inline";
     shareLink.value = 'http://forresto.github.com/turtle-svg/#code/' + packed;
-    shareLink.select();
     var now = new Date();
     document.title = "Saved " + now.toLocaleTimeString() + " -- LASER TURTLE";
     window.location.href = "#code/"+packed;
