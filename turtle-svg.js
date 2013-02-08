@@ -243,8 +243,12 @@ window.onload = function(){
     canvas.width = svgImage.width;
     canvas.height = svgImage.height;
     context.drawImage(svgImage, 0, 0);
-    var pngDataURL = canvas.toDataURL();
-    window.open( pngDataURL );
+    try {
+      var pngDataURL = canvas.toDataURL();
+      window.open( pngDataURL );
+    } catch (error) {
+      rightColumn.appendChild(canvas);
+    }
   };
 
 
