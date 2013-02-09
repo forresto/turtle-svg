@@ -1,6 +1,6 @@
 window.onload = function(){
 
-  ace.config.set("workerPath", ".");
+  ace.config.set("workerPath", "js");
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   var session = editor.getSession();
