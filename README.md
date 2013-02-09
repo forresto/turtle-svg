@@ -7,3 +7,7 @@
 JavaScript turtle graphics to SVG. Why? Laser cutting and other CNC fun... 
 
 Try it with the online live editor: http://forresto.github.com/turtle-svg/
+
+See some examples on the [wiki](https://github.com/forresto/turtle-svg/wiki) (add your own!)
+
+[![wiki](http://i.imgur.com/mbqdAIc.png)](https://github.com/forresto/turtle-svg/wiki)

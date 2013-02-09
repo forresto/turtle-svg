@@ -16,8 +16,8 @@ var _resetTurtle = function(){
     y: 1 * _accuracy
   };
   _max = {
-    x: 500,
-    y: 500
+    x: 1,
+    y: 1
   };
   _currentAngle = 0;
   _paths = [];

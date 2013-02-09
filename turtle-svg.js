@@ -228,9 +228,11 @@ window.onload = function(){
     var svgBlob = new Blob([comment, currentSVGString], { "type" : "image/svg+xml" });
     var svgBlobURL = window.URL.createObjectURL(svgBlob);
     if (svgBlobURL) {
-      // FIX this doesn't work in Safari
+      // FIXME this doesn't work in Safari
       window.open(svgBlobURL);
     } else {
+      // Both of these crash Safari with 50000 points :-(
+      // window.open("data:image/svg+xml;base64,"+window.btoa(comment+currentSVGString));
       window.open("data:image/svg+xml,"+encodeURIComponent(comment+currentSVGString));
     }
   };
