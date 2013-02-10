@@ -305,6 +305,12 @@ window.onload = function(){
     return window.btoa( RawDeflate.deflate( string ) );
   };
 
+  var setEditorCode = function (code) {
+    currentCodeSaved = false;
+    editor.setValue(code, 1);
+    currentCodeSaved = true;
+  };
+
   var loadCodeFromHash = function(){
     if (window.location.hash.substr(0,5) === "#code") {
       try {
@@ -315,9 +321,7 @@ window.onload = function(){
             code: code
           };
           history.replaceState(state, document.title, window.location.hash);
-          currentCodeSaved = false;
-          editor.setValue(code, 1);
-          currentCodeSaved = true;
+          setEditorCode(code);
           testCode();
         }
       } catch (e) {}
@@ -326,12 +330,9 @@ window.onload = function(){
 
   window.onpopstate = function(e){
     if (e.state) {
-      console.log(e.state);
       document.title = e.state.title;
       if (e.state.code !== undefined) {
-        currentCodeSaved = false;
-        editor.setValue(e.state.code, 1);
-        currentCodeSaved = true;
+        setEditorCode(e.state.code);
       }
     }
   };
