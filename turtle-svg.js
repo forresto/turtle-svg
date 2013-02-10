@@ -310,6 +310,11 @@ window.onload = function(){
       try {
         var code = decode( window.location.hash.substr(6) );
         if (code !== editor.getValue()){
+          var state = {
+            title: document.title,
+            code: code
+          };
+          history.replaceState(state, document.title, window.location.hash);
           currentCodeSaved = false;
           editor.setValue(code, 1);
           currentCodeSaved = true;
@@ -321,6 +326,7 @@ window.onload = function(){
 
   window.onpopstate = function(e){
     if (e.state) {
+      console.log(e.state);
       document.title = e.state.title;
       if (e.state.code !== undefined) {
         currentCodeSaved = false;
