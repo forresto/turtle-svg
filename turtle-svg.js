@@ -28,6 +28,8 @@ window.onload = function(){
   var currentSVGCode = "";
   var currentSVGString = "";
 
+  var currentCodeSaved = true;
+
   var autoEval = false;
 
   var worker;
@@ -258,19 +260,39 @@ window.onload = function(){
     Code saving and loading
   */
 
+  session.on("change", function(){
+    if (currentCodeSaved) {
+      currentCodeSaved = false;
+      document.title = "LASER TURTLE -- Turtle Graphics to SVG";
+      history.pushState({title: document.title}, document.title, "#unsaved");
+    }
+  });
+
   shareLink.onclick = function() {
     this.select();
   };
 
-  // Compress code for sharing
+  // Compress code for sharing 
+  // With help from https://github.com/mrdoob/htmleditor
   var saveToURL = function(){
-    // With help from https://github.com/mrdoob/htmleditor
-    var packed = encode( editor.getValue() );
+    currentCodeSaved = true;
+
+    var currentCode = editor.getValue();
+    var packed = encode( currentCode );
     shareLink.style.display = "inline";
     shareLink.value = 'http://forresto.github.com/turtle-svg/#code/' + packed;
     var now = new Date();
     document.title = "Saved " + now.toLocaleTimeString() + " -- LASER TURTLE";
-    window.location.href = "#code/"+packed;
+    // window.location.href = "#code/"+packed;
+    var state = {
+      title: document.title,
+      code: currentCode
+    };
+    if (window.location.hash === "#unsaved") {
+      history.replaceState(state, document.title, "#code/"+packed);
+    } else {
+      history.pushState(state, document.title, "#code/"+packed);
+    }
   };
   link.onclick = function(){
     saveToURL();
@@ -288,13 +310,25 @@ window.onload = function(){
       try {
         var code = decode( window.location.hash.substr(6) );
         if (code !== editor.getValue()){
+          currentCodeSaved = false;
           editor.setValue(code, 1);
+          currentCodeSaved = true;
           testCode();
         }
       } catch (e) {}
     }
   };
-  window.onhashchange = loadCodeFromHash;
+
+  window.onpopstate = function(e){
+    if (e.state) {
+      document.title = e.state.title;
+      if (e.state.code !== undefined) {
+        currentCodeSaved = false;
+        editor.setValue(e.state.code, 1);
+        currentCodeSaved = true;
+      }
+    }
+  };
 
   // See if code is set on load
   if ( window.location.hash ) {
