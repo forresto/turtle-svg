@@ -64,7 +64,7 @@
         line-height: 30px;
       }
 
-      button {
+      button, select {
         font-size: 15px;
       }
 
@@ -130,7 +130,10 @@ for(var i=0; i&lt;50000; i++) {
 
       <div id="commands">
         <div>
-          <em>LASER TURTLE</em>
+          <select id="program">
+            <option value="laser">LASER TURTLE</option>
+            <option value="crafty">CRAFTY TURTLE</option>
+          </select>
         </div>
         <div>
           <button id="apply" title="⌘-Enter">Run</button>
