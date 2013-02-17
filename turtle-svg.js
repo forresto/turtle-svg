@@ -7,6 +7,7 @@ window.onload = function(){
   session.setMode("ace/mode/javascript");
   session.setTabSize(2);
 
+  var programMenu = document.getElementById("program");
   var applyButton = document.getElementById("apply");
   var autoCheck = document.getElementById("auto");
   var helpButton = document.getElementById("show-help");
@@ -41,6 +42,11 @@ window.onload = function(){
     run: "Run",
     cancel: "Abort",
     loading: "Busy"
+  };
+
+  var programURLs = {
+    laser: "http://forresto.github.com/turtle-svg/",
+    crafty: "http://bitcraftlab.github.com/turtlecraft/"
   };
 
   var infos = {
@@ -121,6 +127,14 @@ window.onload = function(){
       testingCode = editor.getValue();
       worker.postMessage(testingCode);
     }
+  };
+
+  // leave the page but keep the code
+  programMenu.onchange = function() {
+    var program = this.options[this.selectedIndex].value;
+    var currentCode = editor.getValue();
+    var packed = encode( currentCode );
+    window.location.href = programURLs[program] + "#code/" + packed;
   };
 
   autoCheck.onchange = function(){
