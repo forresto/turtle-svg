@@ -35,7 +35,7 @@ var _turn = function(){
 };
 
 var turnRight, r;
-turnRight = r =  function(angle){
+turnRight = r = function(angle){
   if (isNaN(angle)) { return; }
 
   turnLeft(-angle);
@@ -69,14 +69,18 @@ penDown = d = function(){
 };
 
 // Set color and make a new path
-var color = function(color) {
+var color = function(color, fill) {
   if (!_defaultUsed){
     _paths = [];
+  }
+  if (fill===true){
+    fill = color;
   }
   color = color.replace(/\"|\'|\>|</g, " ");
   var newPath = {
     color: color,
-    d: "M " + _position.x + " " + _position.y + " "
+    d: "M " + _position.x + " " + _position.y + " ",
+    fill: fill
   };
   _paths.push(newPath);
   _currentPath = newPath;
@@ -165,7 +169,7 @@ self.onmessage = function(e) {
       svg += '  <path id="turtle-path-'+ i +'" '+
         'stroke="' + path.color + '" '+
         'd="' + path.d + '" '+
-        'fill="none" vector-effect="non-scaling-stroke" />' + "\n";
+        'fill="' + (path.fill ? path.fill : 'none') + '" vector-effect="non-scaling-stroke" />' + "\n";
     }
     svg += '</svg>';
 
