@@ -1,0 +1,166 @@
+<!--
+
+Made with LASER TURTLE; here is editor and source: 
+http://forresto.github.io/turtle-svg/#code/nVRBbsMgELz7FVakSkmJFYSU9mD11D6hH3CjJFilcUVobPf1XQyOA6yD3YvFjJkddln2Usi0Tl/SLaV5cgHAAdRmqWD5ZGnFADALzvqHWZawtGyjlRtGlIEtQJ41edKhg6xO6rUSlQR6wc9iSddg+tB9VgtrUn2jW5631y2yPHI8DjObjFspBPxX8mcPzGaTfhS7z5RXsvyFYxQiFfuDSpKdjrPsXdedbJUnX9Vl/14tFVFsnbaZYsCJ8qS5JlM4NWArCwgjsp5DOXzXqeGIco7QqTzOyHT6b2VxjKXbIC5cB2Y4m2FmPbbWxnG4s/96EhXyjZ/wkC4El3NvmxLcnlpvL1mU8YVuwOjVQydzP+g9Wx9bPVaB7gqiHYAWoB6jbo7WCxFqatuHIXyX2i2HEeCHuD55KIMqd1CAub3YYI+/46jTcjRswGiqmGrsIWkcOk5KhgTXgVDcie0isz3MJ2IV7+KWsEeFWSGTekbntn6ThsRo3efNaEdbB8gfS/fGVN+h8TvVk+imFfr5glDxGdbHmjCTbuK7vTgyfgak9/4B
+
+var w = 500;
+var h = w;
+var t = 60;
+var t2 = 20;
+var s = 6;
+var i = 0;
+var x = w/2+t;
+var y = h-x;
+
+var frontColor = "hsl(0, 50%, 50%)";
+var topColor = "hsl(0, 50%, 75%)";
+var rightColor = "hsl(0, 50%, 25%)";
+
+var fill = true;
+
+// back horizontal left
+
+color(topColor, fill);
+moveTo(t+t2, y-t2);
+lineTo(x-t, y-t2);
+lineTo(x-t, y);
+lineTo(t+t2, y);
+lineTo(t+t2, y-t2);
+
+color(frontColor, fill);
+moveTo(x-t, y);
+lineTo(t+t2, y);
+lineTo(t+t2, y+t);
+lineTo(x-t-t, y+t);
+lineTo(x-t, y);
+
+// Diag
+
+color(topColor, fill);
+moveTo(x, y);
+lineTo(t+t2, h-t-t2);
+lineTo(t+t2, h-t-t2-t);
+lineTo(x-t, y);
+lineTo(x, y);
+
+color(rightColor, fill);
+moveTo(x, y);
+lineTo(t+t2, h-t-t2);
+lineTo(t+t2+t, h-t-t2);
+lineTo(x, y+t);
+lineTo(x, y);
+
+// over horizontal left
+
+color(topColor, fill);
+moveTo(0+t+t2, h-t-t2);
+lineTo(0+t, h-t);
+lineTo(x-t, h-t);
+lineTo(x-t, h-t-t2);
+lineTo(0+t+t2, h-t-t2);
+
+color(frontColor, fill);
+moveTo(0, h);
+lineTo(x-t, h);
+lineTo(x-t, h-t);
+lineTo(t, h-t);
+lineTo(0, h);
+
+// over horizontal right
+
+color(topColor, fill);
+moveTo(x+t2, h-t-t2);
+lineTo(w, h-t-t2);
+lineTo(w, h-t);
+lineTo(x+t2, h-t);
+lineTo(x+t2, h-t-t2);
+
+color(frontColor, fill);
+moveTo(x+t2, h-t);
+lineTo(w, h-t);
+lineTo(w, h);
+lineTo(x+t2, h);
+lineTo(x+t2, h-t);
+
+// back vertical 
+
+color(rightColor, fill);
+moveTo(x, y);
+lineTo(x+t2, y-t2);
+lineTo(x+t2, 0);
+lineTo(x, 0);
+lineTo(x, y);
+
+color(frontColor, fill);
+moveTo(x, 0);
+lineTo(x, y);
+lineTo(x-t, y);
+lineTo(x-t, 0);
+lineTo(x, 0);
+
+color(rightColor, fill);
+moveTo(x, y+t);
+lineTo(x+t2, y+t);
+lineTo(x+t2, h);
+lineTo(x, h);
+lineTo(x, y+t);
+
+color(frontColor,fill);
+moveTo(x, y+t);
+lineTo(x, h);
+lineTo(x-t, h);
+lineTo(x-t, y+2*t);
+lineTo(x, y+t);
+
+// back horizontal right
+
+color(topColor, fill);
+moveTo(x+t2, y-t2);
+lineTo(w, y-t2);
+lineTo(w, y);
+lineTo(x, y);
+lineTo(x+t2, y-t2);
+
+color(frontColor, fill);
+moveTo(x, y);
+lineTo(w, y);
+lineTo(w, y+t);
+lineTo(x, y+t);
+lineTo(x, y);
+
+// over vertical
+
+color(rightColor, fill);
+moveTo(0+t,0);
+lineTo(0+t+t2, 0);
+lineTo(0+t+t2, h-t-t2);
+lineTo(0+t, h-t);
+lineTo(0+t,0);
+
+color(frontColor, fill);
+moveTo(0,0);
+lineTo(t, 0);
+lineTo(t, h-t);
+lineTo(0, h);
+lineTo(0, 0);
+
+
+-->
+<svg id="turtle-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
+  <path id="turtle-path-0" stroke="hsl(0, 50%, 75%)" d="M 250 250 M 80 170 L 250 170 L 250 190 L 80 190 L 80 170 " fill="hsl(0, 50%, 75%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-1" stroke="hsl(0, 50%, 50%)" d="M 80 170 M 250 190 L 80 190 L 80 250 L 190 250 L 250 190 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-2" stroke="hsl(0, 50%, 75%)" d="M 250 190 M 310 190 L 80 420 L 80 360 L 250 190 L 310 190 " fill="hsl(0, 50%, 75%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-3" stroke="hsl(0, 50%, 25%)" d="M 310 190 M 310 190 L 80 420 L 140 420 L 310 250 L 310 190 " fill="hsl(0, 50%, 25%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-4" stroke="hsl(0, 50%, 75%)" d="M 310 190 M 80 420 L 60 440 L 250 440 L 250 420 L 80 420 " fill="hsl(0, 50%, 75%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-5" stroke="hsl(0, 50%, 50%)" d="M 80 420 M 0 500 L 250 500 L 250 440 L 60 440 L 0 500 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-6" stroke="hsl(0, 50%, 75%)" d="M 0 500 M 330 420 L 500 420 L 500 440 L 330 440 L 330 420 " fill="hsl(0, 50%, 75%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-7" stroke="hsl(0, 50%, 50%)" d="M 330 420 M 330 440 L 500 440 L 500 500 L 330 500 L 330 440 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-8" stroke="hsl(0, 50%, 25%)" d="M 330 440 M 310 190 L 330 170 L 330 0 L 310 0 L 310 190 " fill="hsl(0, 50%, 25%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-9" stroke="hsl(0, 50%, 50%)" d="M 310 190 M 310 0 L 310 190 L 250 190 L 250 0 L 310 0 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-10" stroke="hsl(0, 50%, 25%)" d="M 310 0 M 310 250 L 330 250 L 330 500 L 310 500 L 310 250 " fill="hsl(0, 50%, 25%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-11" stroke="hsl(0, 50%, 50%)" d="M 310 250 M 310 250 L 310 500 L 250 500 L 250 310 L 310 250 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-12" stroke="hsl(0, 50%, 75%)" d="M 310 250 M 330 170 L 500 170 L 500 190 L 310 190 L 330 170 " fill="hsl(0, 50%, 75%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-13" stroke="hsl(0, 50%, 50%)" d="M 330 170 M 310 190 L 500 190 L 500 250 L 310 250 L 310 190 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-14" stroke="hsl(0, 50%, 25%)" d="M 310 190 M 60 0 L 80 0 L 80 420 L 60 440 L 60 0 " fill="hsl(0, 50%, 25%)" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-15" stroke="hsl(0, 50%, 50%)" d="M 60 0 M 0 0 L 60 0 L 60 440 L 0 500 L 0 0 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
+</svg>
