@@ -1,7 +1,7 @@
 <!--
 
 Made with LASER TURTLE; here is editor and source: 
-http://forresto.github.io/turtle-svg/#code/nVXLbsIwELznKyykStAQYdzHBfXUfkJ/IKWAo6a4Ci5J+vVdP9Jge4OTXpBn5NnxPrKc84rU5IkwSjfJGQAHUJujhOOdpSUDsLbgBOdHcyzgaNlGKVcslQa2AHnWbBKN9pU4ymdRigroGT+Vc7okD/RG/yxm1kR8OVfYPXKpKg7cjbRm3jXjWJQl3JDV9w6Y1Yq85dsPwkVV/MBT8pKUu71Mkq2KNO+cl1q22CSf4rx7FXOZSrYkbSYZcGVxVFyTSZzqsZUFhBFZz74kvuvYcKl0nqBVHmdkKv2XIj/E0m0QF64CM5zNMLMOW2vj2Hftv56pDPnGT7hPF4JXU7tNU9yeWm8vWZTxhW7AaOthkrkf9Jqtj60eq4BuQXQC0ALUQ9TF0zohQo0d+zCE71K75TAC/BF/nzyUQRZbKMDUWWywj19z1Bk5Gg5gNFVMNfQhKRw6jkomDdqBUNyJ7SJzPcwnYhWf4jZltxKzQjb1hMlt/SENicG6T9vRjrYOkL+Wrq2pbkLjPVWb6GIUuv2CUPEd1sUasZMu4ruzOLB+ekRtnieev4s6yM/5z8vWyIa3NDbwvbhWd7xOa0pX/Rc=
+http://forresto.github.io/turtle-svg/#code/nVVBTsMwELznFRYSUksa1TWUS8UJnsAHQmnrCFOj1DQJr2cdO6S2N3XCJfKMPDve9WZ9zktSkSfCKN0kZwAcQGWWCpb3llYMwMqCE6wfzbKApWVrrVyyVBnYAORZvUlatC/lUT1LIUugb/hJzOiCrOlt+5nfWBP55WxhD8imsjhwN9KKeduMYyEE7FDl9w6Y5ZK85dsPwmVZ/MBRckHEbq+SZKsjzTrnRSubb5JPed69yplKFVuQJlMMOFEcNVdnCqd6bGUBYUTWsy+J7zo2XKqcI7QqjzMynf5LkR9i6daIC9eBGc5mmFmHrbVx7G/tv56pCvnaT7hPF4KXU2+bprg9td5esijjC92A0auHTuZ+0Gu2PrZ6rALtFUQ7AC1ANURdHK0TItTYtg9D+C6VWw4jwA/x98tDGVSxhQJM7cUa+/lbjjotR8MGjKaKqYZ+JI1Dx1HJpMF1IBR3YrvIbA/ziVjFu7hJ2Z3CrJBJPaFzG79JQ2Kw7tNmtKOtAuSPpWtjquvQ+J3qSXTRCt18Qaj4DOtijZhJF/HdXhwYPz2iNs8Tz99lZa3s+6+fbLaGF9t5+bJVOFlbrj/qsH7gHn4B
 
 var w = 200;
 var h = w;
@@ -145,13 +145,13 @@ lineTo(0, h);
 lineTo(0, 0);
 
 // shadow
-color(rightColor);
-moveTo(x-t-1, h-t-t2);
+color("hsl(0,50%,25%)");
+moveTo(x-t-1, h-t);
 lineTo(x-t-1, h);
 
-color(rightColor);
-moveTo(w-1, y-t2);
-lineTo(w-1, y+t);
+color("hsl(0,50%,25%)");
+moveTo(w, y);
+lineTo(w, y+t);
 
 
 -->
@@ -172,6 +172,6 @@ lineTo(w-1, y+t);
   <path id="turtle-path-13" stroke="hsl(0, 50%, 50%)" d="M 140 60 M 130 70 L 200 70 L 200 100 L 130 100 L 130 70 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
   <path id="turtle-path-14" stroke="hsl(120, 50%, 50%)" d="M 130 70 M 30 0 L 40 0 L 40 160 L 30 170 L 30 0 " fill="hsl(120, 50%, 50%)" vector-effect="non-scaling-stroke"/>
   <path id="turtle-path-15" stroke="hsl(0, 50%, 50%)" d="M 30 0 M 0 0 L 30 0 L 30 170 L 0 200 L 0 0 " fill="hsl(0, 50%, 50%)" vector-effect="non-scaling-stroke"/>
-  <path id="turtle-path-16" stroke="hsl(120, 50%, 50%)" d="M 0 0 M 99 160 L 99 200 " fill="none" vector-effect="non-scaling-stroke"/>
-  <path id="turtle-path-17" stroke="hsl(120, 50%, 50%)" d="M 99 200 M 199 60 L 199 100 " fill="none" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-16" stroke="hsl(0,50%,25%)" d="M 0 0 M 99 170 L 99 200 " fill="none" vector-effect="non-scaling-stroke"/>
+  <path id="turtle-path-17" stroke="hsl(0,50%,25%)" d="M 99 200 M 200 70 L 200 100 " fill="none" vector-effect="non-scaling-stroke"/>
 </svg>
