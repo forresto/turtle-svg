@@ -173,6 +173,9 @@ self.onmessage = function(e) {
       svg: svg,
       code: e.data
     });
+
+    // Terminate self
+    self.close();
   } catch (error) {
     // err
     self.postMessage("");

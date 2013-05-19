@@ -66,7 +66,6 @@ window.onload = function(){
   };
 
 
-
   var showStats = function() {
     info.innerHTML = workerError ? infos.outputError : infos.outputSuccess(svgGenTime, Date.now());
     applyButton.innerHTML = labels.run;
@@ -116,17 +115,15 @@ window.onload = function(){
     if(loadingSVG) {
       return;
     }
-    if (!worker || workerBusy) {
-      setupWorker();
-    }
-    if (worker && !workerBusy) {
-      workerBusy = true;
-      applyButton.innerHTML = labels.cancel;
-      testCodeStart = Date.now();
-      info.innerHTML = infos.processing;
-      testingCode = editor.getValue();
-      worker.postMessage(testingCode);
-    }
+
+    // Always make a new worker
+    setupWorker();
+    workerBusy = true;
+    applyButton.innerHTML = labels.cancel;
+    testCodeStart = Date.now();
+    info.innerHTML = infos.processing;
+    testingCode = editor.getValue();
+    worker.postMessage(testingCode);
   };
 
   // leave the page but keep the code
