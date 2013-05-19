@@ -45,8 +45,8 @@ window.onload = function(){
   };
 
   var programURLs = {
-    laser: "http://forresto.github.com/turtle-svg/",
-    crafty: "http://bitcraftlab.github.com/turtlecraft/"
+    laser: "http://forresto.github.io/turtle-svg/",
+    crafty: "http://bitcraftlab.github.io/turtlecraft/"
   };
 
   var infos = {
@@ -235,7 +235,7 @@ window.onload = function(){
     if (!currentSVGString) { return; }
 
     var packed = encode( currentSVGCode );
-    var perma = 'http://forresto.github.com/turtle-svg/#code/' + packed;
+    var perma = 'http://forresto.github.io/turtle-svg/#code/' + packed;
     var comment = "<!--\n\n" +
       "Made with LASER TURTLE; here is editor and source: \n" + 
       perma + "\n\n" +
@@ -294,7 +294,7 @@ window.onload = function(){
     var currentCode = editor.getValue();
     var packed = encode( currentCode );
     shareLink.style.display = "inline";
-    shareLink.value = 'http://forresto.github.com/turtle-svg/#code/' + packed;
+    shareLink.value = 'http://forresto.github.io/turtle-svg/#code/' + packed;
     var now = new Date();
     document.title = "Saved " + now.toLocaleTimeString() + " -- LASER TURTLE";
     // window.location.href = "#code/"+packed;
