@@ -17,7 +17,7 @@ See some examples on the [wiki](https://github.com/forresto/turtle-svg/wiki) (ad
 MIT License
 
 ```
-Copyright (c) 2013 Forrest Oliphant
+Copyright (c) 2013-2014 Forrest Oliphant
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
