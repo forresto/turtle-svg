@@ -1,6 +1,6 @@
 window.onload = function(){
 
-  ace.config.set("workerPath", "js");
+  ace.config.set("workerPath", "./js/ace");
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   var session = editor.getSession();
@@ -21,6 +21,7 @@ window.onload = function(){
   var svgContainer = document.getElementById("svg-container");
   var svgImage = document.getElementById("svg-image");
   var info = document.getElementById("info");
+  var mirobot = document.getElementById("mirobot");
 
   var testingCode;
   var testCodeStart;
@@ -37,6 +38,8 @@ window.onload = function(){
   var workerBusy = false;
   var workerError = false;
   var loadingSVG = false;
+
+  var currentParsedData;
 
   var labels = {
     run: "Run",
@@ -94,6 +97,7 @@ window.onload = function(){
         applyButton.disabled = true;
         // calculate + show the amount of time that was required to complete SVG creation
         svgGenTime = Date.now() - testCodeStart;
+        currentParsedData = e.data;
         setSVG(e.data, showStats);
       }
 
@@ -148,6 +152,16 @@ window.onload = function(){
     } else {
       testCode();
     }
+  };
+
+  mirobot.onclick = function(){
+    if (!currentParsedData || !currentParsedData.paths) {
+      return;
+    }
+    mirobotConnection = new TurtleMirobot({
+      address: 'ws://10.10.100.254:8899/websocket',
+      commands: currentParsedData.paths
+    });
   };
 
   var jshintOK = function() {

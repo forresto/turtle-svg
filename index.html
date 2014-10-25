@@ -110,19 +110,24 @@
     </style>
 
     <!-- Libs -->
-    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/rawinflate.js"></script>
-    <script src="js/rawdeflate.js"></script>
+    <script src="./js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/rawinflate.js"></script>
+    <script src="./js/rawdeflate.js"></script>
+    <script src="./js/mirobot.js"></script>
     <!-- App -->
-    <script src="turtle-svg.js"></script>
+    <script src="./turtle-svg.js"></script>
+    <script src="./turtle-mirobot.js"></script>
 
   </head>
   <body>
 
     <div id="editor">// Press CMD + ENTER to run.
-for(var i=0; i&lt;50000; i++) {
-  turnLeft(0.1-Math.random()*0.2);
-  moveForward(1);
+var points = 5;
+for (var i=0; i&lt;points; i++) {
+  moveForward(50);
+  turnLeft(1/points);
+  moveForward(50);
+  turnRight(2*(1/points));
 }
 </div>
 
@@ -157,6 +162,9 @@ for(var i=0; i&lt;50000; i++) {
         </div>
         <div>
           <button id="export">Export SVG</button> <button id="export-png" style="display:none;">PNG</button>
+        </div>
+        <div>
+          <button id="mirobot">Send to Mirobot</button>
         </div>
       </div>
 

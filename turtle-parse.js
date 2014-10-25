@@ -35,23 +35,28 @@ var _turn = function(){
 };
 
 var turnRight, r;
-turnRight = r = function(angle){
+turnRight = r = function (angle) {
   if (isNaN(angle)) { return; }
 
-  turnLeft(-angle);
+  angle = -angle;
+  _currentAngle += angle;
+  _currentAngle = _currentAngle%1;
+  _currentPath.commands.push({cmd:'right', arg:0-angle*360});
+  _turn();
 };
 var turnLeft, l;
-turnLeft = l = function(angle){
+turnLeft = l = function (angle) {
   if (isNaN(angle)) { return; }
 
   _currentAngle += angle;
   _currentAngle = _currentAngle%1;
+  _currentPath.commands.push({cmd:'left', arg:angle*360});
   _turn();
 };
 
 // Absolute turn
 var turnTo, t;
-turnTo = t = function(angle){
+turnTo = t = function (angle) {
   if (isNaN(angle)) { return; }
 
   _currentAngle = angle;
@@ -62,10 +67,12 @@ turnTo = t = function(angle){
 var penUp, u;
 penUp = u = function(){
   _pen = false;
+  _currentPath.commands.push({cmd:'penup'});
 };
 var penDown, d;
 penDown = d = function(){
   _pen = true;
+  _currentPath.commands.push({cmd:'pendown'});
 };
 
 // Set color and make a new path
@@ -80,6 +87,7 @@ var color = function(color, fill) {
   var newPath = {
     color: color,
     d: "M " + _position.x + " " + _position.y + " ",
+    commands: [],
     fill: fill
   };
   _paths.push(newPath);
@@ -111,6 +119,7 @@ moveForward = f = function (distance) {
 
   _currentPath.d += _pen ? "l " : "m ";
   _currentPath.d += x + " " + y + " ";
+  _currentPath.commands.push({cmd:'forward', arg:distance});
   _moveCount++;
 };
 
@@ -150,38 +159,4 @@ var lineBy = function (x, y) {
 
   _currentPath.d += "l " + x + " " + y + " ";
   _moveCount++;
-};
-
-// Worker setup
-self.onmessage = function(e) {
-
-  _resetTurtle();
-
-  try {
-    eval(e.data);
-
-    // Build SVG string
-    var svg = '<svg id="turtle-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="'+
-      Math.ceil(_max.x) + '" height="' +
-      Math.ceil(_max.y) +'">'+"\n";
-    for (var i=0; i<_paths.length; i++) {
-      var path = _paths[i];
-      svg += '  <path id="turtle-path-'+ i +'" '+
-        'stroke="' + path.color + '" '+
-        'd="' + path.d + '" '+
-        'fill="' + (path.fill ? path.fill : 'none') + '" vector-effect="non-scaling-stroke" />' + "\n";
-    }
-    svg += '</svg>';
-
-    self.postMessage({
-      svg: svg,
-      code: e.data
-    });
-
-    // Terminate self
-    self.close();
-  } catch (error) {
-    // err
-    self.postMessage("");
-  }
 };
