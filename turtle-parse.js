@@ -41,7 +41,17 @@ turnRight = r = function (angle) {
   angle = -angle;
   _currentAngle += angle;
   _currentAngle = _currentAngle%1;
-  _currentPath.commands.push({cmd:'right', arg:0-angle*360});
+  _currentPath.commands.push({
+    cmd:'right', 
+    arg:0-angle*360,
+    current: {
+      position: {
+        x: _position.x,
+        y: _position.y,
+      },
+      angle: _currentAngle
+    }
+  });
   _turn();
 };
 var turnLeft, l;
@@ -50,7 +60,17 @@ turnLeft = l = function (angle) {
 
   _currentAngle += angle;
   _currentAngle = _currentAngle%1;
-  _currentPath.commands.push({cmd:'left', arg:angle*360});
+  _currentPath.commands.push({
+    cmd:'left', 
+    arg:angle*360,
+    current: {
+      position: {
+        x: _position.x,
+        y: _position.y,
+      },
+      angle: _currentAngle
+    }
+  });
   _turn();
 };
 
@@ -119,7 +139,17 @@ moveForward = f = function (distance) {
 
   _currentPath.d += _pen ? "l " : "m ";
   _currentPath.d += x + " " + y + " ";
-  _currentPath.commands.push({cmd:'forward', arg:distance});
+  _currentPath.commands.push({
+    cmd:'forward', 
+    arg:distance,
+    current: {
+      position: {
+        x: _position.x,
+        y: _position.y,
+      },
+      angle: _currentAngle
+    }
+  });
   _moveCount++;
 };
 
