@@ -25,7 +25,11 @@
       }
       if (commands[index]) {
         console.log('sending '+index, commands[index]);
-        mb.send(commands[index], next);
+        var cmd = {
+          cmd: commands[index].cmd,
+          arg: commands[index].arg
+        };
+        mb.send(cmd, next);
         index++;
       }
     };
@@ -41,6 +45,7 @@
     } else {
       mb = new Mirobot(options.address, nextInABit);
     }
+    console.log(mb);
 
   };
 
