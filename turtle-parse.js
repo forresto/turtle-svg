@@ -23,7 +23,7 @@ var _resetTurtle = function(){
   _paths = [];
 
   // Start default path
-  color("rgba(0,0,0,0.75)");
+  color('black');
   _defaultUsed = false;
 };
 
